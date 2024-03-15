@@ -1,0 +1,105 @@
+.announcement-fragment {
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.announcement-fragment.left {
+  height: 100%;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(21, 78, 162);
+  border-width: 2px 0px 2px 2px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 15px 0px 0px 15px;
+}
+
+.announcement-fragment.right {
+  height: 100%;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-width: 2px 2px 2px 0px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 0px 15px 15px 0px;
+}
+
+.announcement-fragment-info {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  padding: 15px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-width: 1px 1px 1px 0px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 0px 15px 15px 0px;
+  overflow: auto;
+}
+
+.announcement-fragment-bottom {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-width: 1px 1px 1px 0px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 0px 15px 15px 0px;
+}
+
+.announcement-fragment-date {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.announcement-fragment-time {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.announcement-fragment-readcount {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.announcement-fragment-read {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.announcement-text {
+  font-family: "Courier New", Courier, monospace;
+  font-size: medium;
+}
