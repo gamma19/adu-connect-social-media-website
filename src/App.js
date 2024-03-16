@@ -19,6 +19,8 @@ import LogoImg from "../src/assets/adu-logo.png";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
+import Post from "./components/post/Post";
+import Comment from "./components/post/Comment";
 
 class App extends Component {
   constructor(props) {
@@ -330,6 +332,8 @@ class App extends Component {
           <Route path="/user" element={<BoardUser />} />
           <Route path="/mod" element={<BoardModerator />} />
           <Route path="/admin" element={<BoardAdmin />} />
+          <Route path="/posts" element={<Post />} />
+          <Route path="/comments" element={<Comment />} />
         </Routes>
 
         {/* <AuthVerify logOut={this.logOut}/> */}

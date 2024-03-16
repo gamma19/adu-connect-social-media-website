@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Comment.css";
 
 const Comment = (props) => {
-  const { title, icerik, userId, userName, postId, commentIcerik } = props;
+  const { id, userId, postId, commentIcerik } = props;
 
   return (
     <>

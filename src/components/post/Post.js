@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./Post.css";
 import { Avatar } from "@mui/material";
 import Stack from "@mui/material/Stack";
-import { blue } from '@mui/material/colors';
+import { blue } from "@mui/material/colors";
 import { Link } from "react-router-dom";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Post = (props) => {
-
-  const { title, icerik, userId ,userName } = props;
+  const { title, icerik, userId, Id } = props;
   const [liked, setLiked] = useState(false);
   const [accordionVisible, setAccordionVisible] = useState(false);
 
@@ -21,27 +19,26 @@ const Post = (props) => {
     setLiked(!liked);
   };
 
-  const toggleAccordion = () => {
-    setAccordionVisible(!accordionVisible);
-  };
-
   return (
     <>
       <div className="post">
         <div className="post-upper">
-          <Link style={{ textDecoration: "none" }} to={{ pathname: "/users/" + userId }}>
+          <Link
+            style={{ textDecoration: "none" }}
+            to={{ pathname: "/users/" + userId }}
+          >
             <Stack direction="row" spacing={2}>
-              <Avatar alt=""
+              <Avatar
+                alt=""
                 src="/static/images/avatar/1.jpg"
-                sx={{ width: 70, height: 70, bgcolor: blue[600] }}>
-                {userName[0].toUpperCase()}
+                sx={{ width: 70, height: 70, bgcolor: blue[600] }}
+              >
+                {Id}
               </Avatar>
             </Stack>
           </Link>
-
-          &nbsp;
-          &nbsp;
-          <h5>{userName} - {userId}</h5>
+          &nbsp; &nbsp;
+          <h5>{userId}</h5>
         </div>
         <div className="post-middle">
           <h4>{title}</h4>
@@ -49,7 +46,10 @@ const Post = (props) => {
         </div>
         <div className="post-bottom">
           <div className="post-bottom-left">
-            <button onClick={handleLike} style={liked ? { backgroundColor: "red", color: "white" } : null}>
+            <button
+              onClick={handleLike}
+              style={liked ? { backgroundColor: "red", color: "white" } : null}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
