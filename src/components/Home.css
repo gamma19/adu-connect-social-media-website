@@ -47,7 +47,7 @@ body {
   font-weight: bolder;
   font-size: 100%;
   margin-top: 50px;
-  padding: 30px;
+  padding: 2em;
   background: rgb(255, 255, 255);
   color: black;
 }
@@ -202,7 +202,7 @@ body {
   background-size: cover;
   background-color: rgb(98, 98, 98);
   background-blend-mode: multiply;
-  padding: 10px;
+  padding: 2em;
 }
 
 .home-h5 {

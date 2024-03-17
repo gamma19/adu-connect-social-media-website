@@ -25,7 +25,7 @@ const Post = (props) => {
         <div className="post-upper">
           <Link
             style={{ textDecoration: "none" }}
-            to={{ pathname: "/users/" + userId }}
+            to={{ pathname: "/profile/" + userId }}
           >
             <Stack direction="row" spacing={2}>
               <Avatar
