@@ -126,98 +126,94 @@ export default class Register extends Component {
   render() {
     return (
       <div className="signup-main">
-        <div className="col-md-12">
-          <div className="card card-container">
-            <Avatar sx={{ m: 1, bgcolor: "blue" }}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-diamond-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435z"
-                />
-              </svg>{" "}
-            </Avatar>
-
-            <Form
-              onSubmit={this.handleRegister}
-              ref={(c) => {
-                this.form = c;
-              }}
+        <div className="signup-card">
+          <Avatar sx={{ m: 1, bgcolor: "blue" }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-diamond-fill"
+              viewBox="0 0 16 16"
             >
-              {!this.state.successful && (
-                <div>
-                  <div className="form-group">
-                    <label htmlFor="username">Kullanıcı Adı</label>
-                    <Input
-                      type="text"
-                      className="form-control"
-                      name="username"
-                      value={this.state.username}
-                      onChange={this.onChangeUsername}
-                      validations={[required, vusername]}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <Input
-                      type="text"
-                      className="form-control"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this.onChangeEmail}
-                      validations={[required, email]}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="password">Şifre</label>
-                    <Input
-                      type="password"
-                      className="form-control"
-                      name="password"
-                      value={this.state.password}
-                      onChange={this.onChangePassword}
-                      validations={[required, vpassword]}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <button className="btn btn-primary btn-block">
-                      Kaydol
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {this.state.message && (
-                <div className="form-group">
-                  <div
-                    className={
-                      this.state.successful
-                        ? "alert alert-success"
-                        : "alert alert-danger"
-                    }
-                    role="alert"
-                  >
-                    {this.state.message}
-                  </div>
-                </div>
-              )}
-              <CheckButton
-                style={{ display: "none" }}
-                ref={(c) => {
-                  this.checkBtn = c;
-                }}
+              <path
+                fill-rule="evenodd"
+                d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435z"
               />
-            </Form>
-          </div>
+            </svg>{" "}
+          </Avatar>
+
+          <Form
+            onSubmit={this.handleRegister}
+            ref={(c) => {
+              this.form = c;
+            }}
+          >
+            {!this.state.successful && (
+              <div>
+                <div className="form-group">
+                  <label htmlFor="username">Kullanıcı Adı</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.onChangeUsername}
+                    validations={[required, vusername]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChangeEmail}
+                    validations={[required, email]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="password">Şifre</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                    validations={[required, vpassword]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <button className="btn btn-primary btn-block">Kaydol</button>
+                </div>
+              </div>
+            )}
+
+            {this.state.message && (
+              <div className="form-group">
+                <div
+                  className={
+                    this.state.successful
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                  role="alert"
+                >
+                  {this.state.message}
+                </div>
+              </div>
+            )}
+            <CheckButton
+              style={{ display: "none" }}
+              ref={(c) => {
+                this.checkBtn = c;
+              }}
+            />
+          </Form>
         </div>
       </div>
     );

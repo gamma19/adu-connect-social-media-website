@@ -12,13 +12,13 @@
 
 .signup-card {
   background-color: white;
-  width: 50%;
-  height: 85%;
+  width: 25%;
+  height: 65%;
   border-radius: 5%;
-  padding-bottom: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .signup-right-bottom {
