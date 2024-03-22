@@ -37,7 +37,7 @@
 
 .post-bottom {
   width: 100%;
-  height: 5vh;
+  height: 8vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,11 +53,12 @@
 }
 
 .post-bottom-right {
-  width: 20%;
-  height: 5vh;
+  width: 25%;
+  height: 8vh;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: space-between;
+  padding-right: 1em;
 }
 
 .post-comment {

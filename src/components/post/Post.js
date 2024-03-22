@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Post = (props) => {
-  const { title, icerik, userId, Id } = props;
+  const { title, icerik, userId, Id, deletePost } = props;
   const [liked, setLiked] = useState(false);
   const [accordionVisible, setAccordionVisible] = useState(false);
 
@@ -47,6 +47,8 @@ const Post = (props) => {
         <div className="post-bottom">
           <div className="post-bottom-left">
             <button
+              type="button"
+              class="btn btn-primary"
               onClick={handleLike}
               style={liked ? { backgroundColor: "red", color: "white" } : null}
             >
@@ -62,9 +64,7 @@ const Post = (props) => {
               </svg>
               Beğen
             </button>
-          </div>
-          <div className="post-bottom-right">
-            <button>
+            <button type="button" class="btn btn-primary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -76,6 +76,11 @@ const Post = (props) => {
                 <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
               </svg>
               Paylaş
+            </button>
+          </div>
+          <div className="post-bottom-right">
+            <button type="button" class="btn btn-danger" onClick={deletePost}>
+              Post'u Sil
             </button>
           </div>
         </div>

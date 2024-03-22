@@ -78,10 +78,21 @@ const Profile = () => {
     axios
       .delete(`/posts/${postId}`, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data); // Log the response data
+        console.log(res.data);
       })
       .catch((error) => {
         console.error("Error deleting post:", error);
+      });
+  };
+
+  const deleteComment = (commentId) => {
+    axios
+      .delete(`/comments/${commentId}`, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error deleting comment:", error);
       });
   };
 
@@ -195,7 +206,6 @@ const Profile = () => {
                 currentUser.accessToken.length - 20
               )}
             </p>
-            <p></p>post.userId
             <strong>Authorities:</strong>
             <ul>
               {currentUser.roles &&
@@ -207,31 +217,25 @@ const Profile = () => {
           <div className="profile-right-bottom">
             <ul style={{ listStyleType: "none" }}>
               {userPosts.map((post) => (
-                <li key={post.Id}>
+                <li key={post.id}>
                   <Post
-                    Id={post.Id}
+                    Id={post.id}
                     userId={post.userId}
                     title={post.title}
                     icerik={post.icerik}
+                    deletePost={() => deletePost(post.id)}
                   />
                   {commentList
-                    .filter((comment) => comment.postId === post.Id)
+                    .filter((comment) => comment.postId === post.id)
                     .map((comment) => (
                       <Comment
-                        key={comment.Id}
+                        id={comment.id}
                         userId={comment.userId}
                         postId={comment.postId}
                         commentIcerik={comment.commentIcerik}
+                        deleteComment={() => deleteComment(comment.id)}
                       />
                     ))}
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    onClick={() => deletePost(post.Id)}
-                  >
-                    Post'u Sil
-                  </button>
-                  <p>Post id is: {post.Id}</p>
                 </li>
               ))}
             </ul>
