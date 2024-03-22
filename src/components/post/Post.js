@@ -32,13 +32,13 @@ const Post = (props) => {
                 alt=""
                 src="/static/images/avatar/1.jpg"
                 sx={{ width: 70, height: 70, bgcolor: blue[600] }}
-              >
-                {Id}
-              </Avatar>
+              ></Avatar>
             </Stack>
           </Link>
           &nbsp; &nbsp;
-          <h5>{userId}</h5>
+          <h5>Post ID: {Id}</h5>
+          &nbsp; &nbsp;
+          <h5>User Id: {userId}</h5>
         </div>
         <div className="post-middle">
           <h4>{title}</h4>

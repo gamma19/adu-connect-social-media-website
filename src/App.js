@@ -333,6 +333,7 @@ class App extends Component {
           <Route path="/mod" element={<BoardModerator />} />
           <Route path="/admin" element={<BoardAdmin />} />
           <Route path="/posts" element={<Post />} />
+          <Route path="/posts/:id" element={<Post />} />
           <Route path="/comments" element={<Comment />} />
         </Routes>
 

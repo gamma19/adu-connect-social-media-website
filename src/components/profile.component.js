@@ -10,6 +10,9 @@ import AuthService from "../services/auth.service";
 import Post from "../components/post/Post";
 import Comment from "../components/post/Comment";
 import "./Users.css";
+import usePosts from "../services/usePosts";
+import authHeader from "../services/auth-header";
+import axios from "axios";
 
 const Profile = () => {
   const { userId, title } = useParams();
@@ -18,8 +21,13 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState({ username: "" });
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [postList, setPostList] = useState([]);
+
   const [commentList, setCommentList] = useState([]);
+  const [postList, setPostList] = useState([]);
+  const [commentError, setCommentError] = useState(null);
+  const [commentIsLoaded, setCommentIsLoaded] = useState(false);
+
+  //const { posts } = usePosts();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,42 +39,61 @@ const Profile = () => {
 
       setCurrentUser(currentUser);
       setUserReady(true);
-
-      try {
-        const postResponse = await fetch("/posts");
-        if (!postResponse.ok) {
-          throw new Error("Failed to fetch posts");
-        }
-        const postData = await postResponse.json();
-        setPostList(postData);
-        setIsLoaded(true);
-      } catch (error) {
-        setError(error);
-        setIsLoaded(true);
-      }
-
-      try {
-        const commentResponse = await fetch("/comments");
-        if (!commentResponse.ok) {
-          throw new Error("Failed to fetch comments");
-        }
-        const commentData = await commentResponse.json();
-        setCommentList(commentData);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-        setError(error);
-      }
     };
 
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetch("/posts", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setPostList(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch("/comments", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setCommentIsLoaded(true);
+          setCommentList(result);
+        },
+        (error) => {
+          setCommentIsLoaded(true);
+          setCommentError(error);
+        }
+      );
+  }, []);
+
+  const deletePost = (postId) => {
+    axios
+      .delete(`/posts/${postId}`, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data); // Log the response data
+      })
+      .catch((error) => {
+        console.error("Error deleting post:", error);
+      });
+  };
+
+  // client side user specific post filtering.
+  const userPosts = postList.filter((post) => post.userId === currentUser.id);
+
   if (redirect) {
     return <Navigate to={redirect} />;
   }
 
-  if (!userReady || !isLoaded) {
-    return <div>Loading...</div>;
+  if (!userReady) {
+    return <div>Yükleniyor...</div>;
   }
 
   return (
@@ -168,7 +195,7 @@ const Profile = () => {
                 currentUser.accessToken.length - 20
               )}
             </p>
-            <p></p>
+            <p></p>post.userId
             <strong>Authorities:</strong>
             <ul>
               {currentUser.roles &&
@@ -178,10 +205,11 @@ const Profile = () => {
             </ul>
           </div>
           <div className="profile-right-bottom">
-            <ul>
-              {postList.map((post) => (
+            <ul style={{ listStyleType: "none" }}>
+              {userPosts.map((post) => (
                 <li key={post.Id}>
                   <Post
+                    Id={post.Id}
                     userId={post.userId}
                     title={post.title}
                     icerik={post.icerik}
@@ -196,6 +224,14 @@ const Profile = () => {
                         commentIcerik={comment.commentIcerik}
                       />
                     ))}
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    onClick={() => deletePost(post.Id)}
+                  >
+                    Post'u Sil
+                  </button>
+                  <p>Post id is: {post.Id}</p>
                 </li>
               ))}
             </ul>
