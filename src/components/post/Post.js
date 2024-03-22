@@ -38,7 +38,7 @@ const Post = (props) => {
           &nbsp; &nbsp;
           <h5>Post ID: {Id}</h5>
           &nbsp; &nbsp;
-          <h5>User Id: {userId}</h5>
+          <h5>User ID: {userId}</h5>
         </div>
         <div className="post-middle">
           <h4>{title}</h4>

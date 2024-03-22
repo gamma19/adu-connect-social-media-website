@@ -79,6 +79,7 @@ const Profile = () => {
       .delete(`/posts/${postId}`, { headers: authHeader() })
       .then((res) => {
         console.log(res.data);
+        setPostList(postList.filter((post) => post.id !== postId));
       })
       .catch((error) => {
         console.error("Error deleting post:", error);
@@ -90,6 +91,9 @@ const Profile = () => {
       .delete(`/comments/${commentId}`, { headers: authHeader() })
       .then((res) => {
         console.log(res.data);
+        setCommentList(
+          commentList.filter((comment) => comment.id !== commentId)
+        );
       })
       .catch((error) => {
         console.error("Error deleting comment:", error);
