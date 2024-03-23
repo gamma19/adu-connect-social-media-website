@@ -13,6 +13,8 @@ import "./Users.css";
 import usePosts from "../services/usePosts";
 import authHeader from "../services/auth-header";
 import axios from "axios";
+import BasicForm from "./forms/BasicForm";
+import { motion } from "framer-motion";
 
 const Profile = () => {
   const { userId, title } = useParams();
@@ -26,6 +28,17 @@ const Profile = () => {
   const [postList, setPostList] = useState([]);
   const [commentError, setCommentError] = useState(null);
   const [commentIsLoaded, setCommentIsLoaded] = useState(false);
+
+  const [postTitle, setPostTitle] = useState("");
+  const [icerik, setIcerik] = useState("");
+
+  const handleTitleChange = (e) => {
+    setPostTitle(e.target.value);
+  };
+
+  const handleIcerikChange = (e) => {
+    setIcerik(e.target.value);
+  };
 
   //const { posts } = usePosts();
 
@@ -74,6 +87,8 @@ const Profile = () => {
       );
   }, []);
 
+  //const addPost =
+
   const deletePost = (postId) => {
     axios
       .delete(`/posts/${postId}`, { headers: authHeader() })
@@ -100,6 +115,24 @@ const Profile = () => {
       });
   };
 
+  const handleSubmit = (e) => {
+    /*
+    const postData = {
+      title: title,
+      icerik: icerik,
+    }; 
+    */
+
+    axios
+      .post(`/posts`, { headers: authHeader() })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
+  };
+
   // client side user specific post filtering.
   const userPosts = postList.filter((post) => post.userId === currentUser.id);
 
@@ -123,9 +156,34 @@ const Profile = () => {
             ></img>
           </div>
           <div className="profile-left-bottom">
-            <h4>Username: {currentUser.username}</h4>
-            <h4>Email: {currentUser.email}</h4>
-            <h4>ID: {currentUser.id}</h4>
+            <div className="info">
+              <p>
+                <strong>Username: </strong>
+                {currentUser.username}
+              </p>
+              <p>
+                <strong>Email: </strong>
+                {currentUser.email}
+              </p>
+              <p>
+                <strong>ID: </strong>
+                {currentUser.id}
+              </p>
+              <p>
+                <strong>Token:</strong>{" "}
+                {currentUser.accessToken.substring(0, 20)} ...{" "}
+                {currentUser.accessToken.substr(
+                  currentUser.accessToken.length - 20
+                )}
+              </p>
+              <strong>Authorities:</strong>
+              <ul>
+                {currentUser.roles &&
+                  currentUser.roles.map((role, index) => (
+                    <li key={index}>{role}</li>
+                  ))}
+              </ul>
+            </div>
             <p>
               Share icon John Doe is a versatile individual with a diverse range
               of interests and talents. Born and raised in a small town, John
@@ -202,22 +260,44 @@ const Profile = () => {
               alt="Bannerınız"
             />
           </div>
-          <div className="info">
-            <p>
-              <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)}{" "}
-              ...{" "}
-              {currentUser.accessToken.substr(
-                currentUser.accessToken.length - 20
-              )}
-            </p>
-            <strong>Authorities:</strong>
-            <ul>
-              {currentUser.roles &&
-                currentUser.roles.map((role, index) => (
-                  <li key={index}>{role}</li>
-                ))}
-            </ul>
-          </div>
+          <form className="post-form" onSubmit={handleSubmit}>
+            <label>Post Formu</label>
+            <input
+              type="text"
+              placeholder="Başlığı Gir"
+              value={title}
+              onChange={handleTitleChange}
+            />
+            <input
+              type="text"
+              placeholder="İçeriği Gir"
+              value={icerik}
+              onChange={handleIcerikChange}
+            />
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className=""
+            >
+              <button type="submit" class="btn btn-primary">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-send-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
+                </svg>
+                &nbsp; Postu Gönder
+              </button>
+            </motion.div>
+          </form>
+
           <div className="profile-right-bottom">
             <ul style={{ listStyleType: "none" }}>
               {userPosts.map((post) => (
