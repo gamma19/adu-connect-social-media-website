@@ -18,7 +18,7 @@ import { motion } from "framer-motion";
 import NotFound from "./not-found/NotFound";
 
 const Profile = () => {
-  const { userId, title } = useParams();
+  //const { userId, title } = useParams();
   const [redirect, setRedirect] = useState(null);
   const [userReady, setUserReady] = useState(false);
   const [currentUser, setCurrentUser] = useState({ username: "" });
@@ -30,7 +30,7 @@ const Profile = () => {
   const [commentError, setCommentError] = useState(null);
   const [commentIsLoaded, setCommentIsLoaded] = useState(false);
 
-  const [postTitle, setPostTitle] = useState("");
+  const [title, setPostTitle] = useState("");
   const [icerik, setIcerik] = useState("");
 
   const handleTitleChange = (e) => {
@@ -117,15 +117,14 @@ const Profile = () => {
   };
 
   const handleSubmit = (e) => {
-    /*
     const postData = {
       title: title,
       icerik: icerik,
-    }; 
-    */
+      userId: currentUser.id,
+    };
 
     axios
-      .post(`/posts`, { headers: authHeader() })
+      .post(`/posts`, postData, { headers: authHeader() })
       .then((response) => {
         console.log(response.data);
       })
