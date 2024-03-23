@@ -15,6 +15,7 @@ import authHeader from "../services/auth-header";
 import axios from "axios";
 import BasicForm from "./forms/BasicForm";
 import { motion } from "framer-motion";
+import NotFound from "./not-found/NotFound";
 
 const Profile = () => {
   const { userId, title } = useParams();
@@ -135,6 +136,10 @@ const Profile = () => {
 
   // client side user specific post filtering.
   const userPosts = postList.filter((post) => post.userId === currentUser.id);
+
+  if (error) {
+    return <NotFound />;
+  }
 
   if (redirect) {
     return <Navigate to={redirect} />;

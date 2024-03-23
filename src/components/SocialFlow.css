@@ -1,0 +1,113 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.container-socialflow {
+  width: 100%;
+  height: 92vh;
+  background-color: rgb(85, 85, 155);
+  background-image: url("../assets/adu-campus.jpg");
+  background-size: cover;
+  background-color: grey;
+  background-blend-mode: multiply;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainframe {
+  width: 90%;
+  height: 88vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.left-mainframe {
+  width: 25%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  border-right: 1px solid black;
+}
+
+.right-mainframe {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 1px solid black;
+  flex-direction: column;
+}
+
+.mid-mainframe {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  border-right: 1px black;
+}
+
+.upper-mid {
+  width: 100%;
+  height: 20%;
+  border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-input {
+  width: 85%;
+  height: 15vh;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  row-gap: 5px;
+}
+
+.main-mid {
+  width: 100%;
+  height: 80%;
+  overflow-y: auto;
+}
+
+.right-input {
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid;
+}
+
+.right-textbox-field {
+  width: 80%;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right-window {
+  width: 100%;
+  height: 80vh;
+}
+ul {
+  list-style: none;
+}

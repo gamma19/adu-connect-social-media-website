@@ -226,7 +226,7 @@ class Login extends Component {
                   </Grid>
                   <Grid item>
                     <div className="bot-right">
-                      <Link href="/signup" variant="body2">
+                      <Link href="/register" variant="body2">
                         {"Hesabın yok mu? Kaydol"}
                       </Link>
                       <Link href="/">
