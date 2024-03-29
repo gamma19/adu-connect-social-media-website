@@ -59,6 +59,14 @@
   flex-direction: column;
   border-right: 1px solid black;
   padding: 2em;
+  border-image: linear-gradient(
+    to bottom,
+    transparent 25%,
+    black 35%,
+    black 65%,
+    transparent 75%
+  );
+  border-image-slice: 1;
 }
 
 .right-mainframe {

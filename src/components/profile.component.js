@@ -311,6 +311,18 @@ const Profile = () => {
               alt="Bannerınız"
             />
           </div>
+          <h5
+            style={{
+              marginTop: "0.1em",
+              width: "50%",
+              textAlign: "center",
+              backgroundColor: "lightblue",
+              borderRadius: "0.2em",
+              border: "1px solid black",
+            }}
+          >
+            -- &nbsp; Attığınız Postlar &nbsp; --
+          </h5>
 
           {/*
           <form className="post-form" onSubmit={handleSubmit}>
@@ -370,9 +382,6 @@ const Profile = () => {
            */}
 
           <div className="profile-right-bottom">
-            <h5 style={{ textAlign: "center" }}>
-              -- &nbsp; Attığınız Postlar &nbsp; --
-            </h5>
             <ul style={{ listStyleType: "none" }}>
               {userPosts
                 .slice()
