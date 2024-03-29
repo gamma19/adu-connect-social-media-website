@@ -49,6 +49,8 @@ const SocialFlow = () => {
   const [redirect, setRedirect] = useState(null);
   const [userReady, setUserReady] = useState(false);
   const [currentUser, setCurrentUser] = useState({ username: "" });
+  const [liked, setLiked] = useState(false);
+  //const [accordionVisible, setAccordionVisible] = useState(false);
 
   const handleTitleChange = (e) => {
     setPostTitle(e.target.value);
@@ -129,6 +131,41 @@ const SocialFlow = () => {
       .catch((error) => {
         console.error("Error deleting comment:", error);
       });
+  };
+
+  const handleLike = (likeId) => {
+    const postLike = {
+      postId: Id,
+      userId: currentUser.id,
+    };
+
+    const deleteLike = {
+      likeId: likeId,
+    };
+
+    if (liked) {
+      // If the post is already liked, send a DELETE request to remove the like
+      axios
+        .delete(`/likes/${likeId}`, deleteLike, { headers: authHeader() })
+        .then((res) => {
+          console.log(res.data);
+          setLiked(false); // Update the state to reflect the like has been removed
+        })
+        .catch((error) => {
+          console.error("Error unliking post:", error);
+        });
+    } else {
+      // If the post is not liked, send a POST request to create a new like
+      axios
+        .post(`/likes`, postLike, { headers: authHeader() })
+        .then((res) => {
+          console.log(res.data);
+          setLiked(true); // Update the state to reflect the like has been added
+        })
+        .catch((error) => {
+          console.error("Error liking post:", error);
+        });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -318,6 +355,7 @@ const SocialFlow = () => {
                                 icerik={post.icerik}
                                 //username={currentUser.username}
                                 deletePost={() => deletePost(post.id)}
+                                handleLike={() => handleLike(post.likeId)}
                               />
                               {commentList
                                 .filter((comment) => comment.postId === post.id)

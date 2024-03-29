@@ -67,6 +67,7 @@
     transparent 75%
   );
   border-image-slice: 1;
+  overflow: auto;
 }
 
 .right-mainframe {
