@@ -189,7 +189,7 @@ const SocialFlow = () => {
 
                       <ul>
                         {console.log("postList", postList)}
-                        {postList.map((post) => (
+                        {postList.reverse().map((post) => (
                           <li key={post.id}>
                             <Post
                               Id={post.id}

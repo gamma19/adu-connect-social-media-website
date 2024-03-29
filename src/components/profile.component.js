@@ -10,7 +10,7 @@ import AuthService from "../services/auth.service";
 import Post from "../components/post/Post";
 import Comment from "../components/post/Comment";
 import "./Users.css";
-import usePosts from "../services/usePosts";
+//import usePosts from "../services/usePosts";
 import authHeader from "../services/auth-header";
 import axios from "axios";
 import BasicForm from "./forms/BasicForm";
@@ -344,7 +344,7 @@ const Profile = () => {
 
           <div className="profile-right-bottom">
             <ul style={{ listStyleType: "none" }}>
-              {userPosts.map((post) => (
+              {userPosts.reverse().map((post) => (
                 <li key={post.id}>
                   <Post
                     Id={post.id}
