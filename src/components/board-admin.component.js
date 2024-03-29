@@ -7,7 +7,14 @@ import { useParams } from "react-router-dom";
 import { CCol, CRow } from "@coreui/react";
 import { CWidgetStatsC } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilChartPie, cilCommentSquare, cilUser } from "@coreui/icons";
+import { motion } from "framer-motion";
+import {
+  cilChartPie,
+  cilClipboard,
+  cilCommentBubble,
+  cilCommentSquare,
+  cilUser,
+} from "@coreui/icons";
 import { CTable } from "@coreui/react";
 
 const BoardAdmin = () => {
@@ -51,9 +58,32 @@ const BoardAdmin = () => {
           id: item.id,
           class: item.username, // Assuming 'class' is the username
           heading_1: (
-            <button onClick={() => deleteOneUser(item.id)}>
-              Kullanıcıyı sil.
-            </button>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className=""
+            >
+              <button
+                type="button"
+                class="btn btn-danger"
+                onClick={() => deleteOneUser(item.id)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-trash-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                </svg>
+                &nbsp; Kullanıcıyı sil.
+              </button>
+            </motion.div>
           ), // Assuming 'heading_1' is the ID
           heading_2: "", // Assuming 'heading_2' is empty
           _cellProps: { id: { scope: "row" } },
@@ -141,7 +171,7 @@ const BoardAdmin = () => {
             <CCol xs={6}>
               <CWidgetStatsC
                 className="mb-3"
-                icon={<CIcon icon={cilCommentSquare} height={36} />}
+                icon={<CIcon icon={cilClipboard} height={36} />}
                 progress={{ color: "primary", value: 75 }}
                 text="Toplam Atılan Post Sayısı"
                 title="Toplam Atılan Post Sayısı"
@@ -149,7 +179,20 @@ const BoardAdmin = () => {
               />
             </CCol>
           </CRow>
+          <CRow>
+            <CCol xs={6}>
+              <CWidgetStatsC
+                className="mb-3"
+                icon={<CIcon icon={cilCommentSquare} height={36} />}
+                progress={{ color: "success", value: 75 }}
+                text="Toplam Yorum Sayısı"
+                title="Toplam Yorum Sayısı"
+                value="89.9%"
+              />
+            </CCol>
+          </CRow>
           <CTable hover columns={columns} items={items} />{" "}
+          {/*
           <ul>
             {users.map((user) => (
               <li key={user.id}>
@@ -161,6 +204,9 @@ const BoardAdmin = () => {
               </li>
             ))}
           </ul>
+          
+          
+           */}
         </div>
       </header>
     </div>
