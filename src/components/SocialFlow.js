@@ -18,6 +18,7 @@ import Comment from "../components/post/Comment";
 import authHeader from "../services/auth-header";
 import axios from "axios";
 import NotFound from "./not-found/NotFound";
+import AuthService from "../services/auth.service";
 
 const SocialFlow = () => {
   const meta = {
@@ -40,6 +41,39 @@ const SocialFlow = () => {
   const [commentList, setCommentList] = useState([]);
   const [commentError, setCommentError] = useState(null);
   const [commentIsLoaded, setCommentIsLoaded] = useState(false);
+  const [title, setPostTitle] = useState("");
+  const [icerik, setIcerik] = useState("");
+
+  const [titleError, setTitleError] = useState(false);
+  const [icerikError, setIcerikError] = useState(false);
+  const [redirect, setRedirect] = useState(null);
+  const [userReady, setUserReady] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ username: "" });
+
+  const handleTitleChange = (e) => {
+    setPostTitle(e.target.value);
+    setTitleError(e.target.value.trim() === "");
+  };
+
+  const handleIcerikChange = (e) => {
+    setIcerik(e.target.value);
+    setIcerikError(e.target.value.trim() === "");
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const currentUser = AuthService.getCurrentUser();
+      if (!currentUser) {
+        setRedirect("/home");
+        return;
+      }
+
+      setCurrentUser(currentUser);
+      setUserReady(true);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     fetch("/posts", { headers: authHeader() })
@@ -94,6 +128,23 @@ const SocialFlow = () => {
       })
       .catch((error) => {
         console.error("Error deleting comment:", error);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    const postData = {
+      title: title,
+      icerik: icerik,
+      userId: currentUser.id,
+    };
+
+    axios
+      .post(`/posts`, postData, { headers: authHeader() })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
       });
   };
 
@@ -154,68 +205,139 @@ const SocialFlow = () => {
                         </a>
                       </motion.div>
                     </Link>
-                    <Accordion />
+                    <ul style={{ listStyleType: "disc" }}>
+                      <li>
+                        <p>
+                          Lütfen görgü kurallarına uygun bir biçimde post
+                          atınız.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Postlarınızda her zaman saygılı bir dil kullanmaya
+                          özen gösterin. Diğer kullanıcılara karşı kibar ve
+                          anlayışlı olun, tartışmaları yapıcı bir şekilde
+                          yönlendirin.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Moderatörler, platformdaki uygunluk standartlarına
+                          uymayan içerikleri tespit edip kaldırmakla sorumludur.
+                          Bu yüzden postlarınızın içerikleri moderasyon
+                          tarafından kontrol edilmektedir.
+                        </p>
+                      </li>
+                    </ul>
                   </div>
                   <div className="mid-mainframe">
                     <div className="upper-mid">
-                      <div className="text-input">
+                      <form className="post-form" onSubmit={handleSubmit}>
                         <TextField
+                          type="text"
                           id="outlined-multiline-static"
-                          label="Şimdi Paylaş!"
+                          label="Başlığı Gir"
                           multiline
-                          rows={2}
+                          rows={1}
                           fullWidth
+                          value={title}
+                          onChange={handleTitleChange}
+                          required
                         />
-                        <EmojiComponent />
+                        {titleError && (
+                          <div
+                            className="error-message"
+                            style={{ color: "red" }}
+                          >
+                            Lütfen post başlığını giriniz.
+                          </div>
+                        )}
+                        <TextField
+                          label="İçeriği Gir"
+                          id="outlined-multiline-static"
+                          multiline
+                          rows={1}
+                          fullWidth
+                          value={icerik}
+                          onChange={handleIcerikChange}
+                          required
+                        />
+
+                        {icerikError && (
+                          <div
+                            className="error-message"
+                            style={{ color: "red" }}
+                          >
+                            Lütfen post içeriğini giriniz.
+                          </div>
+                        )}
                         <motion.div
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
+                          whileHover={
+                            !titleError && !icerikError ? { scale: 1.1 } : {}
+                          }
+                          whileTap={
+                            !titleError && !icerikError ? { scale: 0.9 } : {}
+                          }
                           initial={{ opacity: 0, scale: 0.5 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.2 }}
+                          className=""
                         >
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            disabled={titleError || icerikError}
                           >
-                            <ArrowForwardIosIcon />
-                          </Button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-send-fill"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
+                            </svg>
+                            &nbsp; Postu Gönder
+                          </button>
                         </motion.div>
-                      </div>
+                      </form>
                     </div>
                     <div className="main-mid">
-                      <h5 style={{ textAlign: "center" }}>-- Ana Akış --</h5>
-
                       <ul>
                         {console.log("postList", postList)}
-                        {postList.reverse().map((post) => (
-                          <li key={post.id}>
-                            <Post
-                              Id={post.id}
-                              userId={post.userId}
-                              title={post.title}
-                              icerik={post.icerik}
-                              deletePost={() => deletePost(post.id)}
-                            />
-                            {commentList
-                              .filter((comment) => comment.postId === post.id)
-                              .map((comment) => (
-                                <Comment
-                                  id={comment.id}
-                                  userId={comment.userId}
-                                  postId={comment.postId}
-                                  commentIcerik={comment.commentIcerik}
-                                  deleteComment={() =>
-                                    deleteComment(comment.id)
-                                  }
-                                />
-                              ))}
-                          </li>
-                        ))}
+                        {postList
+                          .slice()
+                          .reverse()
+                          .map((post) => (
+                            <li key={post.id}>
+                              <Post
+                                Id={post.id}
+                                userId={post.userId}
+                                title={post.title}
+                                icerik={post.icerik}
+                                //username={currentUser.username}
+                                deletePost={() => deletePost(post.id)}
+                              />
+                              {commentList
+                                .filter((comment) => comment.postId === post.id)
+                                .map((comment) => (
+                                  <Comment
+                                    id={comment.id}
+                                    userId={comment.userId}
+                                    postId={comment.postId}
+                                    commentIcerik={comment.commentIcerik}
+                                    deleteComment={() =>
+                                      deleteComment(comment.id)
+                                    }
+                                  />
+                                ))}
+                            </li>
+                          ))}
                       </ul>
                     </div>
                   </div>
+                  {/* 
                   <div className="right-mainframe">
                     <div className="right-top"></div>
                     <div className="right-input">
@@ -240,6 +362,9 @@ const SocialFlow = () => {
                       </motion.div>
                     </div>
                   </div>
+                  
+                  
+                  */}
                 </div>
               </div>
             </body>

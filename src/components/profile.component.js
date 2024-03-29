@@ -33,6 +33,9 @@ const Profile = () => {
   const [title, setPostTitle] = useState("");
   const [icerik, setIcerik] = useState("");
 
+  const [titleError, setTitleError] = useState(false);
+  const [icerikError, setIcerikError] = useState(false);
+
   //const [editing, setEditing] = useState(false);
   const [editPost, setEditPost] = useState({
     title: "",
@@ -75,10 +78,12 @@ const Profile = () => {
 
   const handleTitleChange = (e) => {
     setPostTitle(e.target.value);
+    setTitleError(e.target.value.trim() === "");
   };
 
   const handleIcerikChange = (e) => {
     setIcerik(e.target.value);
+    setIcerikError(e.target.value.trim() === "");
   };
 
   //const { posts } = usePosts();
@@ -224,7 +229,9 @@ const Profile = () => {
               <ul>
                 {currentUser.roles &&
                   currentUser.roles.map((role, index) => (
-                    <li key={index}>{role}</li>
+                    <li style={{ color: "white" }} key={index}>
+                      {role}
+                    </li>
                   ))}
               </ul>
             </div>
@@ -304,6 +311,8 @@ const Profile = () => {
               alt="Bannerınız"
             />
           </div>
+
+          {/*
           <form className="post-form" onSubmit={handleSubmit}>
             <label>Post Formu</label>
             <input
@@ -311,22 +320,38 @@ const Profile = () => {
               placeholder="Başlığı Gir"
               value={title}
               onChange={handleTitleChange}
+              required
             />
+            {titleError && (
+              <div className="error-message" style={{ color: "red" }}>
+                Lütfen post başlığını giriniz.
+              </div>
+            )}
             <input
               type="text"
               placeholder="İçeriği Gir"
               value={icerik}
               onChange={handleIcerikChange}
+              required
             />
+            {icerikError && (
+              <div className="error-message" style={{ color: "red" }}>
+                Lütfen post içeriğini giriniz.
+              </div>
+            )}
             <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={!titleError && !icerikError ? { scale: 1.1 } : {}}
+              whileTap={!titleError && !icerikError ? { scale: 0.9 } : {}}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.2 }}
               className=""
             >
-              <button type="submit" class="btn btn-primary">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                disabled={titleError || icerikError}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -341,31 +366,40 @@ const Profile = () => {
               </button>
             </motion.div>
           </form>
+          
+           */}
 
           <div className="profile-right-bottom">
+            <h5 style={{ textAlign: "center" }}>
+              -- &nbsp; Attığınız Postlar &nbsp; --
+            </h5>
             <ul style={{ listStyleType: "none" }}>
-              {userPosts.reverse().map((post) => (
-                <li key={post.id}>
-                  <Post
-                    Id={post.id}
-                    userId={post.userId}
-                    title={post.title}
-                    icerik={post.icerik}
-                    deletePost={() => deletePost(post.id)}
-                  />
-                  {commentList
-                    .filter((comment) => comment.postId === post.id)
-                    .map((comment) => (
-                      <Comment
-                        id={comment.id}
-                        userId={comment.userId}
-                        postId={comment.postId}
-                        commentIcerik={comment.commentIcerik}
-                        deleteComment={() => deleteComment(comment.id)}
-                      />
-                    ))}
-                </li>
-              ))}
+              {userPosts
+                .slice()
+                .reverse()
+                .map((post) => (
+                  <li key={post.id}>
+                    <Post
+                      Id={post.id}
+                      userId={post.userId}
+                      title={post.title}
+                      icerik={post.icerik}
+                      username={currentUser.username}
+                      deletePost={() => deletePost(post.id)}
+                    />
+                    {commentList
+                      .filter((comment) => comment.postId === post.id)
+                      .map((comment) => (
+                        <Comment
+                          id={comment.id}
+                          userId={comment.userId}
+                          postId={comment.postId}
+                          commentIcerik={comment.commentIcerik}
+                          deleteComment={() => deleteComment(comment.id)}
+                        />
+                      ))}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

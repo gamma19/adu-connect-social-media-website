@@ -7,7 +7,7 @@
 }
 
 .container-socialflow {
-  width: 100%;
+  width: 100vw;
   height: 92vh;
   background-color: rgb(85, 85, 155);
   background-image: url("../assets/adu-campus.jpg");
@@ -20,14 +20,33 @@
 }
 
 .mainframe {
-  width: 90%;
-  height: 88vh;
+  width: 60%;
+  height: 90vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 10px;
+  background: radial-gradient(
+        circle at 100% 100%,
+        #ffffff 0,
+        #ffffff 3px,
+        transparent 3px
+      )
+      0% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 3px, transparent 3px)
+      100% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 3px, transparent 3px)
+      0% 100%/8px 8px no-repeat,
+    radial-gradient(circle at 0 0, #ffffff 0, #ffffff 3px, transparent 3px) 100%
+      100%/8px 8px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 10px)
+      calc(100% - 16px) no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 16px)
+      calc(100% - 10px) no-repeat,
+    linear-gradient(211deg, #ff008e 0%, #46a8c3 100%);
+  box-sizing: border-box;
 }
 
 .left-mainframe {
@@ -39,10 +58,11 @@
   align-items: center;
   flex-direction: column;
   border-right: 1px solid black;
+  padding: 2em;
 }
 
 .right-mainframe {
-  width: 25%;
+  width: 75%;
   height: 100%;
   display: flex;
   justify-content: space-between;
@@ -52,22 +72,25 @@
 }
 
 .mid-mainframe {
-  width: 50%;
+  width: 75%;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   border-right: 1px black;
+  border-radius: 20px;
+  padding: 0.5em;
 }
 
 .upper-mid {
   width: 100%;
-  height: 20%;
-  border-bottom: 1px solid black;
+  height: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2em;
+  border-radius: 20px;
 }
 
 .text-input {
@@ -83,8 +106,9 @@
 
 .main-mid {
   width: 100%;
-  height: 80%;
+  height: 100%;
   overflow-y: auto;
+  border-radius: 20px;
 }
 
 .right-input {
@@ -110,4 +134,35 @@
 }
 ul {
   list-style: none;
+}
+
+.post-form {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 5px;
+  border-radius: 10px;
+  background-color: white;
+  background: radial-gradient(
+        circle at 100% 100%,
+        #ffffff 0,
+        #ffffff 3px,
+        transparent 3px
+      )
+      0% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 3px, transparent 3px)
+      100% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 3px, transparent 3px)
+      0% 100%/8px 8px no-repeat,
+    radial-gradient(circle at 0 0, #ffffff 0, #ffffff 3px, transparent 3px) 100%
+      100%/8px 8px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 10px)
+      calc(100% - 16px) no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 16px)
+      calc(100% - 10px) no-repeat,
+    linear-gradient(211deg, #ff008e 0%, #46a8c3 100%);
+  padding: 10px;
+  box-sizing: border-box;
 }

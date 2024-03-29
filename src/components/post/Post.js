@@ -12,7 +12,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { motion } from "framer-motion";
 
 const Post = (props) => {
-  const { title, icerik, userId, Id, deletePost } = props;
+  const { title, icerik, userId, Id, deletePost, username } = props;
   const [liked, setLiked] = useState(false);
   const [accordionVisible, setAccordionVisible] = useState(false);
 
@@ -36,6 +36,8 @@ const Post = (props) => {
               ></Avatar>
             </Stack>
           </Link>
+          &nbsp; &nbsp;
+          <h5>{username}</h5>
           &nbsp; &nbsp;
           <h5>Post ID: {Id}</h5>
           &nbsp; &nbsp;
@@ -65,6 +67,7 @@ const Post = (props) => {
               </svg>
               &nbsp; Beğen
             </button>
+            {/* 
             <button type="button" class="btn btn-primary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +81,7 @@ const Post = (props) => {
               </svg>
               &nbsp; Paylaş
             </button>
+            */}
           </div>
           <div className="post-bottom-right">
             <motion.div

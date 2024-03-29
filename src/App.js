@@ -22,6 +22,7 @@ import EventBus from "./common/EventBus";
 import Post from "./components/post/Post";
 import Comment from "./components/post/Comment";
 import SocialFlow from "./components/SocialFlow";
+import Announcement from "./components/Announcement";
 
 class App extends Component {
   constructor(props) {
@@ -329,6 +330,7 @@ class App extends Component {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/announcement" element={<Announcement />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/user" element={<BoardUser />} />
           <Route path="/mod" element={<BoardModerator />} />
