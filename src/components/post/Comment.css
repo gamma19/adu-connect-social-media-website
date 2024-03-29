@@ -40,4 +40,5 @@
   align-items: center;
   padding-right: 5px;
   padding-bottom: -5px;
+  column-gap: 10px;
 }

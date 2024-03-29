@@ -18,7 +18,7 @@ import { motion } from "framer-motion";
 import NotFound from "./not-found/NotFound";
 
 const Profile = () => {
-  //const { userId, title } = useParams();
+  const { userId } = useParams();
   const [redirect, setRedirect] = useState(null);
   const [userReady, setUserReady] = useState(false);
   const [currentUser, setCurrentUser] = useState({ username: "" });
@@ -32,6 +32,46 @@ const Profile = () => {
 
   const [title, setPostTitle] = useState("");
   const [icerik, setIcerik] = useState("");
+
+  //const [editing, setEditing] = useState(false);
+  const [editPost, setEditPost] = useState({
+    title: "",
+    icerik: "",
+    userId: "",
+  });
+
+  const handleEdit = () => {
+    //setEditing(true);
+    setEditPost({ title, icerik, userId });
+  };
+
+  const handleEditSubmit = (postId) => {
+    postId.preventDefault();
+    // Send a request to the backend to update the post
+    // After successful update, update the post in the frontend state
+    // and set editing to false
+    const postData = {
+      title: title,
+      icerik: icerik,
+    };
+
+    axios
+      .put(`/posts/${postId}`, postData, { headers: authHeader() })
+      .then((response) => {
+        console.log(response.data);
+        // After successful update, update the post in the frontend state
+        // and set editing to false
+
+        //updatePost(response.data); // Assuming updatePost is a function passed down from the parent component
+        //setEditing(false);
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+        // Handle the error, e.g., show an error message to the user
+      });
+
+    setPostList(postList.filter((post) => post.id !== postId));
+  };
 
   const handleTitleChange = (e) => {
     setPostTitle(e.target.value);
