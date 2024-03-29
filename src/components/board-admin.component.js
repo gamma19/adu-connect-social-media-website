@@ -1,48 +1,170 @@
-import React, { Component } from "react";
-
+import React, { useState, useEffect } from "react";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import axios from "axios";
+import authHeader from "../services/auth-header";
+import { useParams } from "react-router-dom";
+import { CCol, CRow } from "@coreui/react";
+import { CWidgetStatsC } from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { cilChartPie, cilCommentSquare, cilUser } from "@coreui/icons";
+import { CTable } from "@coreui/react";
 
-export default class BoardAdmin extends Component {
-  constructor(props) {
-    super(props);
+const BoardAdmin = () => {
+  const { userId } = useParams();
+  const [content, setContent] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [items, setItems] = useState([]);
 
-    this.state = {
-      content: ""
+  const columns = [
+    {
+      key: "id",
+      label: "#",
+      _props: { scope: "col" },
+    },
+    {
+      key: "class",
+      label: "Kullanıcı Adı",
+      _props: { scope: "col" },
+    },
+    {
+      key: "heading_1",
+      label: " ",
+      _props: { scope: "col" },
+    },
+    {
+      key: "heading_2",
+      label: " ",
+      _props: { scope: "col" },
+    },
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/users`, { headers: authHeader() });
+        const data = response.data;
+
+        const transformedData = data.map((item) => ({
+          id: item.id,
+          class: item.username, // Assuming 'class' is the username
+          heading_1: (
+            <button onClick={() => deleteOneUser(item.id)}>
+              Kullanıcıyı sil.
+            </button>
+          ), // Assuming 'heading_1' is the ID
+          heading_2: "", // Assuming 'heading_2' is empty
+          _cellProps: { id: { scope: "row" } },
+        }));
+
+        // Update the items state
+        setItems(transformedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-  }
 
-  componentDidMount() {
+    fetchData();
+  }, []); //
+
+  useEffect(() => {
     UserService.getAdminBoard().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
+      (response) => {
+        setContent(response.data);
       },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
+      (error) => {
+        let errorMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setContent(errorMessage);
 
         if (error.response && error.response.status === 401) {
           EventBus.dispatch("logout");
         }
       }
     );
-  }
+  }, []);
 
-  render() {
-    return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("/users", { headers: authHeader() });
+        console.log(response.data);
+        setUsers(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  const deleteOneUser = async (userId) => {
+    try {
+      const response = await axios.delete(`/users/${userId}`, {
+        headers: authHeader(),
+      });
+      // Filter out the deleted user from the users array
+      const updatedUsers = users.filter((user) => user.id !== userId);
+      setUsers(updatedUsers);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="container">
+      <header className="jumbotron">
+        <div>
+          <h2>Admin Paneli</h2>
+          <CRow>
+            <CCol xs={6}>
+              <CWidgetStatsC
+                className="mb-3"
+                icon={<CIcon icon={cilUser} height={36} />}
+                progress={{ color: "success", value: 75 }}
+                text="Toplam Kullanıcı Sayısı"
+                title="Toplam Kullanıcı Sayısı"
+                value="89.9%"
+              />
+            </CCol>
+            <CCol xs={6}>
+              <CWidgetStatsC
+                className="mb-3"
+                icon={<CIcon icon={cilCommentSquare} height={36} />}
+                progress={{ color: "primary", value: 75 }}
+                text="Toplam Atılan Post Sayısı"
+                title="Toplam Atılan Post Sayısı"
+                value="89.9%"
+              />
+            </CCol>
+          </CRow>
+          <CTable hover columns={columns} items={items} />{" "}
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>
+                Kullanıcı Adı: {user.username} ID: {user.id}
+                &nbsp; &nbsp;
+                <button onClick={() => deleteOneUser(user.id)}>
+                  Kullanıcıyı sil.
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </header>
+    </div>
+  );
+};
+
+export default BoardAdmin;
