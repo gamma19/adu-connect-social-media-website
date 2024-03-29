@@ -16,6 +16,13 @@ import {
   cilUser,
 } from "@coreui/icons";
 import { CTable } from "@coreui/react";
+import { PieChart } from "@mui/x-charts/PieChart";
+
+const data = [
+  { id: 0, value: 10, label: "Admin" },
+  { id: 1, value: 15, label: "Moderator" },
+  { id: 2, value: 20, label: "Kullanıcı" },
+];
 
 const BoardAdmin = () => {
   const { userId } = useParams();
@@ -162,20 +169,20 @@ const BoardAdmin = () => {
               <CWidgetStatsC
                 className="mb-3"
                 icon={<CIcon icon={cilUser} height={36} />}
-                progress={{ color: "success", value: 75 }}
+                //progress={{ color: "primary", value: 75 }}
                 text="Toplam Kullanıcı Sayısı"
                 title="Toplam Kullanıcı Sayısı"
-                value="89.9%"
+                value="5"
               />
             </CCol>
             <CCol xs={6}>
               <CWidgetStatsC
                 className="mb-3"
                 icon={<CIcon icon={cilClipboard} height={36} />}
-                progress={{ color: "primary", value: 75 }}
+                //progress={{ color: "primary", value: 75 }}
                 text="Toplam Atılan Post Sayısı"
                 title="Toplam Atılan Post Sayısı"
-                value="89.9%"
+                value="12"
               />
             </CCol>
           </CRow>
@@ -184,10 +191,33 @@ const BoardAdmin = () => {
               <CWidgetStatsC
                 className="mb-3"
                 icon={<CIcon icon={cilCommentSquare} height={36} />}
-                progress={{ color: "success", value: 75 }}
+                //progress={{ color: "primary", value: 75 }}
                 text="Toplam Yorum Sayısı"
                 title="Toplam Yorum Sayısı"
-                value="89.9%"
+                value="3"
+              />
+            </CCol>
+            <CCol
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              xs={6}
+            >
+              <PieChart
+                series={[
+                  {
+                    data,
+                    highlightScope: { faded: "global", highlighted: "item" },
+                    faded: {
+                      innerRadius: 30,
+                      additionalRadius: -30,
+                      color: "gray",
+                    },
+                  },
+                ]}
+                height={200}
               />
             </CCol>
           </CRow>

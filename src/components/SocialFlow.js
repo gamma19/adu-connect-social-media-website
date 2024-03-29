@@ -19,6 +19,7 @@ import authHeader from "../services/auth-header";
 import axios from "axios";
 import NotFound from "./not-found/NotFound";
 import AuthService from "../services/auth.service";
+import Avatar from "@mui/material/Avatar";
 
 const SocialFlow = () => {
   const meta = {
@@ -242,14 +243,48 @@ const SocialFlow = () => {
                         </a>
                       </motion.div>
                     </Link>
-                    <ul style={{ listStyleType: "disc" }}>
+                    <ul>
                       <li>
+                        <Avatar
+                          sx={{ m: 1, bgcolor: "#0B5ED7", color: "white" }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-diamond-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435z"
+                            />
+                          </svg>{" "}
+                        </Avatar>
                         <p>
                           Lütfen görgü kurallarına uygun bir biçimde post
                           atınız.
                         </p>
                       </li>
                       <li>
+                        <Avatar
+                          sx={{ m: 1, bgcolor: "#0B5ED7", color: "white" }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-diamond-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435z"
+                            />
+                          </svg>{" "}
+                        </Avatar>
                         <p>
                           Postlarınızda her zaman saygılı bir dil kullanmaya
                           özen gösterin. Diğer kullanıcılara karşı kibar ve
@@ -258,6 +293,23 @@ const SocialFlow = () => {
                         </p>
                       </li>
                       <li>
+                        <Avatar
+                          sx={{ m: 1, bgcolor: "#0B5ED7", color: "white" }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-diamond-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435z"
+                            />
+                          </svg>{" "}
+                        </Avatar>
                         <p>
                           Moderatörler, platformdaki uygunluk standartlarına
                           uymayan içerikleri tespit edip kaldırmakla sorumludur.
