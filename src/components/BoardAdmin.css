@@ -4,3 +4,8 @@ td #heading_2 {
   align-items: center;
   flex-direction: row;
 }
+
+.admin-main {
+  width: 100vw;
+  height: 88vh;
+}

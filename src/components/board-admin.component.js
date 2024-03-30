@@ -18,6 +18,23 @@ import {
 import { CTable } from "@coreui/react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import "./BoardAdmin.css";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const data = [
   { id: 0, value: 10, label: "Admin" },
@@ -32,6 +49,16 @@ const BoardAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
+  const drawerWidth = 240;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const columns = [
     {
@@ -243,6 +270,7 @@ const BoardAdmin = () => {
       const updatedUsers = users.filter((user) => user.id !== userId);
       setUsers(updatedUsers);
       setLoading(false);
+      setOpen(true);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -250,72 +278,73 @@ const BoardAdmin = () => {
   };
 
   return (
-    <div className="container">
-      <header className="jumbotron">
-        <div>
-          <h2 style={{ textAlign: "center" }}>Admin Paneli</h2>
-          <CRow>
-            <CCol xs={6}>
-              <CWidgetStatsC
-                className="mb-3"
-                icon={<CIcon icon={cilUser} height={36} />}
-                //progress={{ color: "primary", value: 75 }}
-                text="Toplam Kullanıcı Sayısı"
-                title="Toplam Kullanıcı Sayısı"
-                value="5"
-              />
-            </CCol>
-            <CCol xs={6}>
-              <CWidgetStatsC
-                className="mb-3"
-                icon={<CIcon icon={cilClipboard} height={36} />}
-                //progress={{ color: "primary", value: 75 }}
-                text="Toplam Atılan Post Sayısı"
-                title="Toplam Atılan Post Sayısı"
-                value="12"
-              />
-            </CCol>
-          </CRow>
-          <CRow>
-            <CCol xs={6}>
-              <CWidgetStatsC
-                className="mb-3"
-                icon={<CIcon icon={cilCommentSquare} height={36} />}
-                //progress={{ color: "primary", value: 75 }}
-                text="Toplam Yorum Sayısı"
-                title="Toplam Yorum Sayısı"
-                value="3"
-              />
-            </CCol>
-            <CCol
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                marginTop: "2em",
-              }}
-              xs={6}
-            >
-              <h5>Üyelerin Rol Dağılım Oranı</h5>
-              <PieChart
-                series={[
-                  {
-                    data,
-                    highlightScope: { faded: "global", highlighted: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
+    <div className="admin-main">
+      <div className="container">
+        <header className="jumbotron">
+          <div>
+            <h2 style={{ textAlign: "center" }}>Admin Paneli</h2>
+            <CRow>
+              <CCol xs={6}>
+                <CWidgetStatsC
+                  className="mb-3"
+                  icon={<CIcon icon={cilUser} height={36} />}
+                  //progress={{ color: "primary", value: 75 }}
+                  text="Toplam Kullanıcı Sayısı"
+                  title="Toplam Kullanıcı Sayısı"
+                  value="5"
+                />
+              </CCol>
+              <CCol xs={6}>
+                <CWidgetStatsC
+                  className="mb-3"
+                  icon={<CIcon icon={cilClipboard} height={36} />}
+                  //progress={{ color: "primary", value: 75 }}
+                  text="Toplam Atılan Post Sayısı"
+                  title="Toplam Atılan Post Sayısı"
+                  value="12"
+                />
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol xs={6}>
+                <CWidgetStatsC
+                  className="mb-3"
+                  icon={<CIcon icon={cilCommentSquare} height={36} />}
+                  //progress={{ color: "primary", value: 75 }}
+                  text="Toplam Yorum Sayısı"
+                  title="Toplam Yorum Sayısı"
+                  value="3"
+                />
+              </CCol>
+              <CCol
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  marginTop: "2em",
+                }}
+                xs={6}
+              >
+                <h5>Üyelerin Rol Dağılım Oranı</h5>
+                <PieChart
+                  series={[
+                    {
+                      data,
+                      highlightScope: { faded: "global", highlighted: "item" },
+                      faded: {
+                        innerRadius: 30,
+                        additionalRadius: -30,
+                        color: "gray",
+                      },
                     },
-                  },
-                ]}
-                height={200}
-              />
-            </CCol>
-          </CRow>
-          <CTable hover columns={columns} items={items} />{" "}
-          {/*
+                  ]}
+                  height={200}
+                />
+              </CCol>
+            </CRow>
+            <CTable hover columns={columns} items={items} />{" "}
+            {/*
           <ul>
             {users.map((user) => (
               <li key={user.id}>
@@ -330,8 +359,19 @@ const BoardAdmin = () => {
           
           
            */}
-        </div>
-      </header>
+          </div>
+        </header>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Kullanıcı başarıyla silindi!
+          </Alert>
+        </Snackbar>
+      </div>
     </div>
   );
 };
