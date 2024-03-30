@@ -45,7 +45,7 @@ const BoardAdmin = () => {
     },
     {
       key: "heading_1",
-      label: " ",
+      label: "Roller",
       _props: { scope: "col" },
     },
     {
@@ -64,7 +64,47 @@ const BoardAdmin = () => {
         const transformedData = data.map((item) => ({
           id: item.id,
           class: item.username, // Assuming 'class' is the username
-          heading_1: (
+          heading_1: item.roles.map((role) => {
+            let backgroundColor;
+            let color;
+            let displayText;
+            switch (role.name) {
+              case "ROLE_ADMIN":
+                backgroundColor = "blue";
+                color = "white";
+                displayText = "Admin";
+                break;
+              case "ROLE_MODERATOR":
+                backgroundColor = "green";
+                color = "white";
+                displayText = "Moderator";
+                break;
+              case "ROLE_USER":
+                backgroundColor = "red";
+                color = "white";
+                displayText = "Kullanıcı";
+                break;
+              default:
+                backgroundColor = "gray";
+                displayText = "Unknown";
+            }
+            return (
+              <div
+                key={role.name} // Ensure each div has a unique key
+                style={{
+                  width: "fit-content",
+                  backgroundColor: backgroundColor,
+                  color: color,
+                  padding: "5px",
+                  borderRadius: "5px",
+                  marginBottom: "5px",
+                }}
+              >
+                {displayText}
+              </div>
+            );
+          }), // Assuming 'heading_1' is the ID
+          heading_2: (
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -91,8 +131,7 @@ const BoardAdmin = () => {
                 &nbsp; Kullanıcıyı sil.
               </button>
             </motion.div>
-          ), // Assuming 'heading_1' is the ID
-          heading_2: "", // Assuming 'heading_2' is empty
+          ), // Assuming 'heading_2' is empty
           _cellProps: { id: { scope: "row" } },
         }));
 
@@ -163,7 +202,7 @@ const BoardAdmin = () => {
     <div className="container">
       <header className="jumbotron">
         <div>
-          <h2>Admin Paneli</h2>
+          <h2 style={{ textAlign: "center" }}>Admin Paneli</h2>
           <CRow>
             <CCol xs={6}>
               <CWidgetStatsC
@@ -202,9 +241,12 @@ const BoardAdmin = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column",
+                marginTop: "2em",
               }}
               xs={6}
             >
+              <h5>Üyelerin Rol Dağılım Oranı</h5>
               <PieChart
                 series={[
                   {
