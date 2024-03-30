@@ -65,46 +65,59 @@ const BoardAdmin = () => {
         const transformedData = data.map((item) => ({
           id: item.id,
           class: item.username, // Assuming 'class' is the username
-          heading_1: item.roles.map((role) => {
-            let backgroundColor;
-            let color;
-            let displayText;
-            switch (role.name) {
-              case "ROLE_ADMIN":
-                backgroundColor = "blue";
-                color = "white";
-                displayText = "Admin";
-                break;
-              case "ROLE_MODERATOR":
-                backgroundColor = "green";
-                color = "white";
-                displayText = "Moderator";
-                break;
-              case "ROLE_USER":
-                backgroundColor = "red";
-                color = "white";
-                displayText = "Kullanıcı";
-                break;
-              default:
-                backgroundColor = "gray";
-                displayText = "Unknown";
-            }
-            return (
-              <div
-                key={role.name} // Ensure each div has a unique key
-                style={{
-                  width: "fit-content",
-                  backgroundColor: backgroundColor,
-                  color: color,
-                  padding: "5px",
-                  borderRadius: "5px",
-                  marginBottom: "5px",
-                }}
-              >
-                {displayText}
-              </div>
-            );
-          }), // Assuming 'heading_1' is the ID
+          heading_1: (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                flexDirection: "row",
+                columnGap: "1em",
+              }}
+            >
+              {item.roles
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((role) => {
+                  let backgroundColor;
+                  let color;
+                  let displayText;
+                  switch (role.name) {
+                    case "ROLE_ADMIN":
+                      backgroundColor = "blue";
+                      color = "white";
+                      displayText = "Admin";
+                      break;
+                    case "ROLE_MODERATOR":
+                      backgroundColor = "green";
+                      color = "white";
+                      displayText = "Moderator";
+                      break;
+                    case "ROLE_USER":
+                      backgroundColor = "red";
+                      color = "white";
+                      displayText = "Kullanıcı";
+                      break;
+                    default:
+                      backgroundColor = "gray";
+                      displayText = "Unknown";
+                  }
+                  return (
+                    <div
+                      key={role.name}
+                      style={{
+                        width: "fit-content",
+                        backgroundColor: backgroundColor,
+                        color: color,
+                        padding: "5px",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {displayText}
+                    </div>
+                  );
+                })}
+            </div>
+          ),
           heading_2: (
             <div
               style={{
@@ -125,7 +138,7 @@ const BoardAdmin = () => {
               >
                 <button
                   type="button"
-                  class="btn btn-warning"
+                  className="btn btn-warning"
                   onClick={() => deleteOneUser(item.id)}
                 >
                   <svg
@@ -133,7 +146,7 @@ const BoardAdmin = () => {
                     width="16"
                     height="16"
                     fill="currentColor"
-                    class="bi bi-pencil-fill"
+                    className="bi bi-pencil-fill"
                     viewBox="0 0 16 16"
                   >
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
@@ -151,7 +164,7 @@ const BoardAdmin = () => {
               >
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  className="btn btn-danger"
                   onClick={() => deleteOneUser(item.id)}
                 >
                   <svg
@@ -159,7 +172,7 @@ const BoardAdmin = () => {
                     width="16"
                     height="16"
                     fill="currentColor"
-                    class="bi bi-trash-fill"
+                    className="bi bi-trash-fill"
                     viewBox="0 0 16 16"
                   >
                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
