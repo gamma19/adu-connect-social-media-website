@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import authHeader from "../services/auth-header";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const EditUserPage = ({ userId, username, onClose }) => {
+  const currentUser = AuthService.getCurrentUser();
+
   const navigate = useNavigate();
   const [newUsername, setNewUsername] = useState(username);
 
@@ -13,10 +16,10 @@ const EditUserPage = ({ userId, username, onClose }) => {
     setNewUsername(e.target.value);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (userId) => {
     const saveData = {
+      userId: currentUser.id,
       newUser: newUsername,
-      userId: userId,
     };
 
     try {
@@ -36,7 +39,7 @@ const EditUserPage = ({ userId, username, onClose }) => {
         value={newUsername}
         onChange={handleUsernameChange}
       />
-      <button onClick={handleSave}>Save</button>
+      <button onClick={() => handleSave(currentUser.id)}>Save</button>
       <button onClick={() => navigate("/admin")}>Cancel</button>
     </div>
   );
