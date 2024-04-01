@@ -23,6 +23,7 @@ import Post from "./components/post/Post";
 import Comment from "./components/post/Comment";
 import SocialFlow from "./components/SocialFlow";
 import Announcement from "./components/Announcement";
+import EditUserPage from "./components/EditUserPage";
 
 class App extends Component {
   constructor(props) {
@@ -339,6 +340,7 @@ class App extends Component {
           <Route path="/posts/:id" element={<Post />} />
           <Route path="/comments" element={<Comment />} />
           <Route path="/socialflow" element={<SocialFlow />} />
+          <Route path="/edituserpage" element={<EditUserPage />} />
         </Routes>
 
         {/* <AuthVerify logOut={this.logOut}/> */}
