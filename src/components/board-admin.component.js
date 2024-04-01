@@ -35,12 +35,24 @@ import MailIcon from "@mui/icons-material/Mail";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-
-const data = [
-  { id: 0, value: 10, label: "Admin" },
-  { id: 1, value: 15, label: "Moderator" },
-  { id: 2, value: 20, label: "Kullanıcı" },
-];
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
+import {
+  GridRowModes,
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+} from "@mui/x-data-grid";
+import {
+  randomCreatedDate,
+  randomTraderName,
+  randomId,
+  randomArrayItem,
+} from "@mui/x-data-grid-generator";
 
 const BoardAdmin = () => {
   const { userId } = useParams();
@@ -50,7 +62,196 @@ const BoardAdmin = () => {
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
   const drawerWidth = 240;
+
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleEditClick = (id) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = (id) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
+
+  const columns = [
+    { field: "name", headerName: "Name", width: 180, editable: true },
+    {
+      field: "age",
+      headerName: "Age",
+      type: "number",
+      width: 80,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "joinDate",
+      headerName: "Join date",
+      type: "date",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "role",
+      headerName: "Department",
+      width: 220,
+      editable: true,
+      type: "singleSelect",
+      valueOptions: ["Market", "Finance", "Development"],
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: "primary.main",
+              }}
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+
+  const roles = ["Market", "Finance", "Development"];
+  const randomRole = () => {
+    return randomArrayItem(roles);
+  };
+
+  const initialRows = [
+    {
+      id: randomId(),
+      name: randomTraderName(),
+      age: 25,
+      joinDate: randomCreatedDate(),
+      role: randomRole(),
+    },
+    {
+      id: randomId(),
+      name: randomTraderName(),
+      age: 36,
+      joinDate: randomCreatedDate(),
+      role: randomRole(),
+    },
+    {
+      id: randomId(),
+      name: randomTraderName(),
+      age: 19,
+      joinDate: randomCreatedDate(),
+      role: randomRole(),
+    },
+    {
+      id: randomId(),
+      name: randomTraderName(),
+      age: 28,
+      joinDate: randomCreatedDate(),
+      role: randomRole(),
+    },
+    {
+      id: randomId(),
+      name: randomTraderName(),
+      age: 23,
+      joinDate: randomCreatedDate(),
+      role: randomRole(),
+    },
+  ];
   const [open, setOpen] = React.useState(false);
+  const [rows, setRows] = useState(initialRows);
+  const [rowModesModel, setRowModesModel] = React.useState({});
+
+  function EditToolbar(props) {
+    const { setRows, setRowModesModel } = props;
+
+    const handleClick = () => {
+      const id = randomId();
+      setRows((oldRows) => [
+        ...oldRows,
+        { id, name: "", age: "", isNew: true },
+      ]);
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      }));
+    };
+
+    return (
+      <GridToolbarContainer>
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Kullanıcı Ekle
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
+
+  const data = [
+    { id: 0, value: 10, label: "Admin" },
+    { id: 1, value: 15, label: "Moderator" },
+    { id: 2, value: 20, label: "Kullanıcı" },
+  ];
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -60,7 +261,7 @@ const BoardAdmin = () => {
     setOpen(false);
   };
 
-  const columns = [
+  const columnsTwo = [
     {
       key: "id",
       label: "#",
@@ -204,7 +405,7 @@ const BoardAdmin = () => {
                   >
                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                   </svg>
-                  &nbsp; Kullanıcıyı sil.
+                  &nbsp; Kullanıcıyı sil
                 </button>
               </motion.div>
             </div>
@@ -343,7 +544,7 @@ const BoardAdmin = () => {
                 />
               </CCol>
             </CRow>
-            <CTable hover columns={columns} items={items} />{" "}
+            <CTable hover columns={columnsTwo} items={items} />{" "}
             {/*
           <ul>
             {users.map((user) => (
@@ -359,6 +560,34 @@ const BoardAdmin = () => {
           
           
            */}
+            <Box
+              sx={{
+                height: 500,
+                width: "100%",
+                "& .actions": {
+                  color: "text.secondary",
+                },
+                "& .textPrimary": {
+                  color: "text.primary",
+                },
+              }}
+            >
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                editMode="row"
+                rowModesModel={rowModesModel}
+                onRowModesModelChange={handleRowModesModelChange}
+                onRowEditStop={handleRowEditStop}
+                processRowUpdate={processRowUpdate}
+                slots={{
+                  toolbar: EditToolbar,
+                }}
+                slotProps={{
+                  toolbar: { setRows, setRowModesModel },
+                }}
+              />
+            </Box>
           </div>
         </header>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
