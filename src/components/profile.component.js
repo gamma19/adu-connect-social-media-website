@@ -236,18 +236,20 @@ const Profile = () => {
               </ul>
             </div>
             <p>
-              Share icon John Doe is a versatile individual with a diverse range
-              of interests and talents. Born and raised in a small town, John
-              developed a passion for music at a young age. He spent countless
-              hours honing his skills as a guitarist and eventually formed a
-              successful band that toured internationally.
+              &nbsp; &nbsp; ADU Connect kullanıcı profilinizdeki bilgileri
+              görüntülemek ve düzenlemek için hoş geldiniz.
             </p>
+            {/*
             <h4 style={{ fontSize: "30px" }}>
               - - - - Kaydolunan Klüpler - - - -
             </h4>
-            <ol>
-              <li>Satranç Klübü</li>
+            
+            
+            <li>Satranç Klübü</li>
               <li>Tenis Klübü</li>
+             */}
+
+            <ol>
               <div className="links">
                 <ul style={{ listStyle: "none" }}>
                   <h3>Sosyal Medya Linkleri</h3>

@@ -342,7 +342,7 @@ const BoardAdmin = () => {
                 }}
                 xs={6}
               >
-                <h5>Üyelerin Rol Dağılım Oranı</h5>
+                <h5>Üyelerin Rol Dağılım Oranı - Özellik eklenecek!</h5>
                 <PieChart
                   series={[
                     {

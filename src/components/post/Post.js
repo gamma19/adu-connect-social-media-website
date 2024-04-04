@@ -16,17 +16,13 @@ import authHeader from "../../services/auth-header";
 
 const Post = (props) => {
   const [correctUser, setCorrectUser] = useState(false);
+  const [liked, setLiked] = useState(false);
 
-  const {
-    title,
-    icerik,
-    userId,
-    Id,
-    deletePost,
-    username,
-    likeId,
-    handleLike,
-  } = props;
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
+  const { title, icerik, userId, Id, deletePost, username, likeId } = props;
 
   useEffect(() => {
     function checkCorrectUser() {
@@ -43,7 +39,7 @@ const Post = (props) => {
         <div className="post-upper">
           <Link
             style={{ textDecoration: "none" }}
-            to={{ pathname: "/profile/" + userId }}
+            to={{ pathname: "/profile" }}
           >
             <Stack direction="row" spacing={2}>
               <Avatar
@@ -70,7 +66,7 @@ const Post = (props) => {
               type="button"
               class="btn btn-primary"
               onClick={handleLike}
-              //style={liked ? { backgroundColor: "red", color: "white" } : null}
+              style={liked ? { backgroundColor: "red", color: "white" } : null}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
