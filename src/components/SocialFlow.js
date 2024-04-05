@@ -51,8 +51,13 @@ const SocialFlow = () => {
   const [userReady, setUserReady] = useState(false);
   const [currentUser, setCurrentUser] = useState({ username: "" });
   const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState(""); // State for the comment input
+
   //const [accordionVisible, setAccordionVisible] = useState(false);
 
+  const handleSendComment = (e) => {
+    setComment(e.target.value);
+  };
   const handleTitleChange = (e) => {
     setPostTitle(e.target.value);
     setTitleError(e.target.value.trim() === "");
@@ -123,6 +128,22 @@ const SocialFlow = () => {
         }
       );
   }, []);
+
+  const sendComment = (postId) => {
+    const commentData = {
+      userId: currentUser.id,
+      postId: postId, // Assuming you have the post ID
+      commentIcerik: comment,
+    };
+    axios
+      .post(`/comments`, commentData, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error sending comment:", error);
+      });
+  };
 
   const deletePost = (postId) => {
     axios
@@ -422,6 +443,9 @@ const SocialFlow = () => {
                                 //username={currentUser.username}
                                 deletePost={() => deletePost(post.id)}
                                 handleLike={() => handleLike(post.id)}
+                                comment={comment}
+                                handleSendComment={handleSendComment}
+                                sendComment={() => sendComment(post.id)}
                               />
                               {commentList
                                 .filter((comment) => comment.postId === post.id)
