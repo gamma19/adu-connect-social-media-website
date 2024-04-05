@@ -99,26 +99,6 @@ class App extends Component {
                 &nbsp; Anasayfa
               </button>
             </Link>
-            {showModeratorBoard && (
-              <Link to="/mod">
-                <button type="button" class="header-buttons">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="white"
-                    class="bi bi-clipboard-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2"
-                    />
-                  </svg>
-                  &nbsp; Moderator Board'u
-                </button>
-              </Link>
-            )}
 
             {showAdminBoard && (
               <Link to="/admin">
@@ -134,25 +114,6 @@ class App extends Component {
                     <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
                   </svg>
                   &nbsp; Admin Paneli
-                </button>
-              </Link>
-            )}
-
-            {currentUser && (
-              <Link to="/user">
-                <button type="button" class="header-buttons">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    class="bi bi-bookmarks-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z" />
-                    <path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z" />
-                  </svg>
-                  &nbsp; Kullanıcı
                 </button>
               </Link>
             )}
