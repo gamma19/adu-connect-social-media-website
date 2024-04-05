@@ -224,7 +224,7 @@ const Post = (props) => {
             <div className="comment-input-inside">
               <TextField
                 size="medium"
-                label="Add Comment"
+                label="Yorumunu Yaz"
                 variant="outlined"
                 value={comment}
                 onChange={handleSendComment}
