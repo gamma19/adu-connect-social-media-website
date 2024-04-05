@@ -33,7 +33,7 @@ const SocialFlow = () => {
     },
   };
 
-  const { userId, userName, postId, Id } = useParams();
+  const { userId, userName, postId, Id, likes } = useParams();
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -108,6 +108,22 @@ const SocialFlow = () => {
       );
   }, []);
 
+  // getting likes.
+  useEffect(() => {
+    fetch("/likes", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setCommentIsLoaded(true);
+          setCommentList(result);
+        },
+        (error) => {
+          setCommentIsLoaded(true);
+          setCommentError(error);
+        }
+      );
+  }, []);
+
   const deletePost = (postId) => {
     axios
       .delete(`/posts/${postId}`, { headers: authHeader() })
@@ -134,34 +150,32 @@ const SocialFlow = () => {
       });
   };
 
-  const handleLike = (likeId) => {
+  const handleLike = (postId, likeId) => {
     const postLike = {
-      postId: Id,
+      postId: postId,
       userId: currentUser.id,
     };
 
     const deleteLike = {
-      likeId: likeId,
+      id: likeId,
     };
 
     if (liked) {
-      // If the post is already liked, send a DELETE request to remove the like
       axios
         .delete(`/likes/${likeId}`, deleteLike, { headers: authHeader() })
         .then((res) => {
           console.log(res.data);
-          setLiked(false); // Update the state to reflect the like has been removed
+          setLiked(false);
         })
         .catch((error) => {
           console.error("Error unliking post:", error);
         });
     } else {
-      // If the post is not liked, send a POST request to create a new like
       axios
         .post(`/likes`, postLike, { headers: authHeader() })
         .then((res) => {
           console.log(res.data);
-          setLiked(true); // Update the state to reflect the like has been added
+          setLiked(true);
         })
         .catch((error) => {
           console.error("Error liking post:", error);
@@ -407,7 +421,7 @@ const SocialFlow = () => {
                                 icerik={post.icerik}
                                 //username={currentUser.username}
                                 deletePost={() => deletePost(post.id)}
-                                handleLike={() => handleLike(post.likeId)}
+                                handleLike={() => handleLike(post.id)}
                               />
                               {commentList
                                 .filter((comment) => comment.postId === post.id)

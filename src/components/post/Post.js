@@ -36,6 +36,7 @@ const Post = (props) => {
     username,
     likeId,
     handleLike,
+    likes,
   } = props;
 
   useEffect(() => {
