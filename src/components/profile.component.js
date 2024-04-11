@@ -35,6 +35,7 @@ const Profile = () => {
 
   const [titleError, setTitleError] = useState(false);
   const [icerikError, setIcerikError] = useState(false);
+  const [comment, setComment] = useState(""); // State for the comment input
 
   //const [editing, setEditing] = useState(false);
   const [editPost, setEditPost] = useState({
@@ -47,7 +48,9 @@ const Profile = () => {
     //setEditing(true);
     setEditPost({ title, icerik, userId });
   };
-
+  const handleSendComment = (e) => {
+    setComment(e.target.value);
+  };
   const handleEditSubmit = (postId) => {
     postId.preventDefault();
     // Send a request to the backend to update the post
@@ -158,6 +161,22 @@ const Profile = () => {
       })
       .catch((error) => {
         console.error("Error deleting comment:", error);
+      });
+  };
+
+  const sendComment = (postId) => {
+    const commentData = {
+      userId: currentUser.id,
+      postId: postId, // Assuming you have the post ID
+      commentIcerik: comment,
+    };
+    axios
+      .post(`/comments`, commentData, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error sending comment:", error);
       });
   };
 
@@ -397,6 +416,9 @@ const Profile = () => {
                       icerik={post.icerik}
                       username={currentUser.username}
                       deletePost={() => deletePost(post.id)}
+                      comment={comment}
+                      handleSendComment={handleSendComment}
+                      sendComment={() => sendComment(post.id)}
                     />
                     {commentList
                       .filter((comment) => comment.postId === post.id)

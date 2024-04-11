@@ -192,10 +192,11 @@ class Login extends Component {
                   onChange={this.onChangePassword}
                   validations={[required]}
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Beni Hatırla"
-                />
+                /> */}
+
                 <button
                   className="btn btn-primary btn-block"
                   disabled={this.state.loading}
@@ -220,9 +221,12 @@ class Login extends Component {
                 />
                 <Grid container>
                   <Grid item xs>
-                    <Link href="/forgot" variant="body2">
+                    {/*
+                <Link href="/forgot" variant="body2">
                       Şifremi Unuttum
                     </Link>
+                
+                 */}
                   </Grid>
                   <Grid item>
                     <div className="bot-right">
