@@ -21,23 +21,16 @@ export default function EffectCard() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={require("../../../pages/about/students.jpg")} />
+          <img src={require("../../../assets/7.jpg")} />
         </SwiperSlide>
         <SwiperSlide>
-          {" "}
-          <img src={require("../../../pages/about/7.jpg")} />
+          <img src={require("../../../assets/3.jpg")} />
         </SwiperSlide>
         <SwiperSlide>
-          {" "}
-          <img src={require("../../../pages/about/3.jpg")} />
+          <img src={require("../../../assets/4.jpg")} />
         </SwiperSlide>
         <SwiperSlide>
-          {" "}
-          <img src={require("../../../pages/about/4.jpg")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <img src={require("../../../pages/about/5.jpg")} />
+          <img src={require("../../../assets/5.jpg")} />
         </SwiperSlide>
       </Swiper>
     </>

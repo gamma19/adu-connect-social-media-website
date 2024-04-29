@@ -13,7 +13,7 @@ import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-//import EffectCard from "../../components/swiper-js/EffectCard/EffectCard";
+import EffectCard from "../components/swiper-js/EffectCard/EffectCard";
 import { useState, useEffect } from "react";
 
 import UserService from "../services/user.service";
@@ -162,14 +162,13 @@ export default class Home extends Component {
                 kurmalarına ve sosyal ağlarını genişletmelerine yardımcı olur.
               </p>
             </div>
-            {/* <div className="home-section-two"></div>
-              
-              <div className="home-section-three-left" data-aos="fade-up">
+            {/* <div className="home-section-two"></div> */}
+
+            <div className="home-section-three">
+              <div className="home-section-three-left">
                 <EffectCard className={"home-effect-card"} />
               </div>
-              
-              */}
-            <div className="home-section-three">
+
               <div className="home-section-three-right">
                 <h5
                   className="home-h5"
