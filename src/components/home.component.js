@@ -164,7 +164,7 @@ export default class Home extends Component {
             </div>
             {/* <div className="home-section-two"></div> */}
 
-            <div className="home-section-three">
+            <div className="home-section-three" data-aos="fade-up">
               <div className="home-section-three-left">
                 <EffectCard className={"home-effect-card"} />
               </div>

@@ -25,8 +25,8 @@ const Announcement = () => {
           <div className="announcement-main">
             <div className="announcement-container">
               <AnnouncementFragment />
-              <AnnouncementFragment />
-              <AnnouncementFragment />
+              {/*<AnnouncementFragment /> */}
+              {/*<AnnouncementFragment /> */}
             </div>
           </div>
           <footer></footer>
