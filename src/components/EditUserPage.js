@@ -1,5 +1,3 @@
-// EditUserPage.jsx
-
 import React, { useState } from "react";
 import axios from "axios";
 import authHeader from "../services/auth-header";
@@ -16,17 +14,20 @@ const EditUserPage = ({ userId, username, onClose }) => {
     setNewUsername(e.target.value);
   };
 
-  const handleSave = async (userId) => {
+  const handleSave = (userId) => {
     const saveData = {
       userId: currentUser.id,
       newUser: newUsername,
     };
 
-    try {
-      await axios.put(`/users/${userId}`, saveData, { headers: authHeader() });
-    } catch (error) {
-      console.error("Error updating username:", error);
-    }
+    axios
+      .put(`/users/${userId}`, saveData, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
