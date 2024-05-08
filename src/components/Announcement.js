@@ -3,8 +3,25 @@ import "./Announcement.css";
 //import Header from "..components/header/Header";
 //import Footer from "..components/footer/Footer";
 import AnnouncementFragment from "../components/announcement-fragment/AnnouncementFragment";
+import authHeader from "../services/auth-header";
+import { useState, useEffect } from "react";
 
 const Announcement = () => {
+  const [announcement, setAnnouncement] = useState([]);
+
+  useEffect(() => {
+    fetch("/posts", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          setAnnouncement(data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }, []);
+
   return (
     <>
       <html>
@@ -24,7 +41,15 @@ const Announcement = () => {
           <header></header>
           <div className="announcement-main">
             <div className="announcement-container">
-              <AnnouncementFragment />
+              {announcement
+                .slice()
+                .reverse()
+                .map((announcement) => (
+                  <AnnouncementFragment
+                    title={announcement.title}
+                    icerik={announcement.icerik}
+                  />
+                ))}
               {/*<AnnouncementFragment /> */}
               {/*<AnnouncementFragment /> */}
             </div>
