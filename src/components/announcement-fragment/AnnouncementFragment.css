@@ -40,7 +40,7 @@
   height: 80%;
   display: flex;
   padding: 15px;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-width: 1px 1px 1px 0px;
