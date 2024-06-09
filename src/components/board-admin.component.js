@@ -356,7 +356,7 @@ const BoardAdmin = () => {
           userCount++;
           break;
         default:
-          console.warn("Unknown role:", role.name);
+          console.log("Unknown role:", role.name);
       }
     });
   });
