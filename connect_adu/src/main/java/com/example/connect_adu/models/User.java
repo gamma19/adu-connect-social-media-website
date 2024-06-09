@@ -3,6 +3,8 @@ package com.example.connect_adu.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.connect_adu.entities.Profile;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +42,9 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+  private Profile profile;
+
   public User() {
   }
 
@@ -50,13 +55,15 @@ public class User {
   }
 
   public User(String username, String email, String password, Set<Role> roles) {
-	this.username = username;
-	this.email = email;
-	this.password = password;
-	this.roles = roles;
-}
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.roles = roles;
+  }
+  
 
-public Long getId() {
+
+  public Long getId() {
     return id;
   }
 
@@ -94,5 +101,14 @@ public Long getId() {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public Profile getProfile() {
+    return profile;
+  }
+
+  public void setProfile(Profile profile) {
+    this.profile = profile;
+    profile.setUser(this);
   }
 }

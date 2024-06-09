@@ -16,6 +16,8 @@ import axios from "axios";
 import BasicForm from "./forms/BasicForm";
 import { motion } from "framer-motion";
 import NotFound from "./not-found/NotFound";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -36,6 +38,10 @@ const Profile = () => {
   const [titleError, setTitleError] = useState(false);
   const [icerikError, setIcerikError] = useState(false);
   const [comment, setComment] = useState(""); // State for the comment input
+  const [bio, setBio] = useState([]);
+
+  // bio buraya eklenecek
+  const [profileData, setProfileData] = useState([]);
 
   //const [editing, setEditing] = useState(false);
   const [editPost, setEditPost] = useState({
@@ -89,6 +95,10 @@ const Profile = () => {
     setIcerikError(e.target.value.trim() === "");
   };
 
+  //const handleBio = (e) => {
+  //setBio(e.target.value);
+  //};
+
   //const { posts } = usePosts();
 
   useEffect(() => {
@@ -136,6 +146,32 @@ const Profile = () => {
       );
   }, []);
 
+  // to fetch bio data
+  {
+    /*
+useEffect(() => {
+    fetch("/profiles", {
+      headers: authHeader(),
+    })
+      .then((res) => console.log(res.json()))
+      .then(
+        (result) => {
+          setProfileData(result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
+
+
+*/
+  }
+
+  const currentUserBio = profileData.find(
+    (user) => user.userId === currentUser.id
+  );
+
   //const addPost =
 
   const deletePost = (postId) => {
@@ -172,6 +208,41 @@ const Profile = () => {
     };
     axios
       .post(`/comments`, commentData, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error sending comment:", error);
+      });
+  };
+
+  // create profile
+  const createProfile = (e) => {
+    const data = {
+      userId: currentUser.id,
+      biography: "",
+      profile_picture: "",
+    };
+    axios
+      .post(`/profiles/create`, data, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error while creating profile.", error);
+      });
+  };
+
+  // bio will be added
+  const handleAddBio = (e) => {
+    const data = {
+      userId: currentUser.id,
+      newBiography: bio,
+    };
+    axios
+      .put(`/profiles/biography`, data, {
+        headers: authHeader(),
+      })
       .then((res) => {
         console.log(res.data);
       })
@@ -253,12 +324,42 @@ const Profile = () => {
                     </li>
                   ))}
               </ul>
+
+              {/*
+                <div>
+                  {currentUserBio.map((profile, index) => (
+                    <div key={index}>
+                      <h1>User ID: {profile.userId}</h1>
+                      <p>Biography: {profile.biography}</p>
+                      {profile.profilePicture ? (
+                        <img src={profile.profilePicture} alt="Profile" />
+                      ) : (
+                        <p>No profile picture available</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              */}
+
+              <Grid item xs>
+                <Link to="/forgot">
+                  <button style={{ padding: "5px" }}>Şifreyi Değiştir</button>
+                </Link>
+                &nbsp; &nbsp;
+                <button
+                  style={{ padding: "5px" }}
+                  onClick={() => createProfile()}
+                >
+                  Profil Oluştur
+                </button>
+              </Grid>
             </div>
-            <p>
+
+            {/*
+             <p>
               &nbsp; &nbsp; ADU Connect kullanıcı profilinizdeki bilgileri
               görüntülemek ve düzenlemek için hoş geldiniz.
             </p>
-            {/*
             <h4 style={{ fontSize: "30px" }}>
               - - - - Kaydolunan Klüpler - - - -
             </h4>
@@ -270,7 +371,8 @@ const Profile = () => {
 
             <ol>
               <div className="links">
-                <ul style={{ listStyle: "none" }}>
+                {/* 
+              <ul style={{ listStyle: "none" }}>
                   <h3>Sosyal Medya Linkleri</h3>
                   <li>
                     <Link to="">
@@ -320,6 +422,25 @@ const Profile = () => {
                     &nbsp; X
                   </li>
                 </ul>
+              */}
+                <TextField
+                  id="outlined-multiline-flexible"
+                  sx={{ width: "100%", marginBottom: "10px" }}
+                  label="İletiniz"
+                  multiline
+                  minRows={2}
+                  maxRows={5}
+                  //data-aos="fade-up"
+                  //data-aos-duration="1000"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                />
+                <button
+                  style={{ padding: "5px" }}
+                  onClick={() => handleAddBio()}
+                >
+                  Bio Ekle
+                </button>
               </div>
             </ol>
           </div>
@@ -412,6 +533,7 @@ const Profile = () => {
                     <Post
                       Id={post.id}
                       userId={post.userId}
+                      createdAt={post.createdAt}
                       title={post.title}
                       icerik={post.icerik}
                       username={currentUser.username}
@@ -426,6 +548,7 @@ const Profile = () => {
                         <Comment
                           id={comment.id}
                           userId={comment.userId}
+                          createdAt={post.createdAt}
                           postId={comment.postId}
                           commentIcerik={comment.commentIcerik}
                           deleteComment={() => deleteComment(comment.id)}

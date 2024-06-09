@@ -1,8 +1,11 @@
 package com.example.connect_adu.entities;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.example.connect_adu.models.User;
 
@@ -54,7 +57,11 @@ public class Comment {
 	@Lob
 	@Column(columnDefinition = "TEXT")
 	String commentIcerik;
-
+	
+	
+    @CreationTimestamp
+    @Column(updatable = false)
+    Date createdAt;
 
 
 
@@ -62,47 +69,43 @@ public class Comment {
 		return Id;
 	}
 
-
-
-
 	public void setId(Long id) {
 		Id = id;
 	}
-
-
-
 
 	public User getUser() {
 		return user;
 	}
 
-
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 	public Post getPost() {
 		return post;
 	}
 
-
 	public void setPost(Post post) {
 		this.post = post;
 	}
-
 
 	public String getCommentIcerik() {
 		return commentIcerik;
 	}
 
-
 	public void setCommentIcerik(String commentIcerik) {
 		this.commentIcerik = commentIcerik;
 	}
-	
-	
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+
 
 }

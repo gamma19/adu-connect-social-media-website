@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +24,14 @@ import com.example.connect_adu.models.Role;
 import com.example.connect_adu.models.User;
 import com.example.connect_adu.payload.request.LoginRequest;
 import com.example.connect_adu.payload.request.SignupRequest;
-import  com.example.connect_adu.payload.response.JwtResponse;
-import  com.example.connect_adu.payload.response.MessageResponse;
+import com.example.connect_adu.payload.response.JwtResponse;
+import com.example.connect_adu.payload.response.MessageResponse;
 import com.example.connect_adu.repository.RoleRepository;
 import com.example.connect_adu.repository.UserRepository;
 import com.example.connect_adu.security.jwt.JwtUtils;
 import com.example.connect_adu.security.services.UserDetailsImpl;
+
+import jakarta.validation.Valid;
 
 
 

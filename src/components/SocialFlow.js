@@ -45,6 +45,9 @@ const SocialFlow = () => {
   const [title, setPostTitle] = useState("");
   const [icerik, setIcerik] = useState("");
 
+  // post'un time'ini cekme
+  const [time, setTime] = useState("");
+
   const [titleError, setTitleError] = useState(false);
   const [icerikError, setIcerikError] = useState(false);
   const [redirect, setRedirect] = useState(null);
@@ -438,6 +441,7 @@ const SocialFlow = () => {
                               <Post
                                 Id={post.id}
                                 userId={post.userId}
+                                createdAt={post.createdAt}
                                 title={post.title}
                                 icerik={post.icerik}
                                 //username={currentUser.username}
@@ -452,6 +456,7 @@ const SocialFlow = () => {
                                 .map((comment) => (
                                   <Comment
                                     id={comment.id}
+                                    createdAt={post.createdAt}
                                     userId={comment.userId}
                                     postId={comment.postId}
                                     commentIcerik={comment.commentIcerik}

@@ -1,5 +1,6 @@
 package com.example.connect_adu.responses;
 
+import com.example.connect_adu.entities.Profile; // Profile sınıfının doğru paketini import edin
 import lombok.Data;
 
 @Data
@@ -7,10 +8,17 @@ public class ProfileResponse {
     private Long id;
     private Long userId;
     private String biography;
-    private byte[] profilePicture;
+    private String profilePicture;
 
-    // Getter ve setter metotları buraya eklenebilir
+    // Constructor that takes a Profile object
+    public ProfileResponse(Profile profile) {
+        this.id = profile.getId();
+        this.userId = profile.getUser().getId();
+        this.biography = profile.getBiography();
+        this.profilePicture = profile.getProfilePicture();
+    }
 
+    // Getter and setter methods can still be present if needed
     public Long getId() {
         return id;
     }
@@ -35,11 +43,11 @@ public class ProfileResponse {
         this.biography = biography;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 }

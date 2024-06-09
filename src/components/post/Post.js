@@ -45,6 +45,7 @@ const Post = (props) => {
     sendComment,
     val,
     handleSendComment,
+    createdAt,
   } = props;
 
   useEffect(() => {
@@ -84,6 +85,7 @@ const Post = (props) => {
           <h5>User ID: {userId}</h5>
         </div>
         <div className="post-middle">
+          <h5>{createdAt}</h5>
           <h4>{title}</h4>
           <p>{icerik}</p>
         </div>

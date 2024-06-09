@@ -4,24 +4,29 @@ import authHeader from "../services/auth-header";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-const EditUserPage = ({ userId, username, onClose }) => {
+const EditUserPage = ({ id, username, onClose }) => {
   const currentUser = AuthService.getCurrentUser();
 
   const navigate = useNavigate();
   const [newUsername, setNewUsername] = useState(username);
+  const [oldUserId, setUserId] = useState("");
 
   const handleUsernameChange = (e) => {
     setNewUsername(e.target.value);
   };
 
-  const handleSave = (userId) => {
+  const handleUserIdChange = (e) => {
+    setUserId(e.target.value);
+  };
+
+  const handleSave = () => {
     const saveData = {
-      userId: currentUser.id,
-      newUser: newUsername,
+      id: oldUserId,
+      username: newUsername,
     };
 
     axios
-      .put(`/users/${userId}`, saveData, { headers: authHeader() })
+      .put(`/users/updateUserName`, saveData, { headers: authHeader() })
       .then((res) => {
         console.log(res.data);
       })
@@ -32,15 +37,31 @@ const EditUserPage = ({ userId, username, onClose }) => {
 
   return (
     <div>
+      &nbsp; &nbsp; &nbsp; &nbsp;
       <h2>Edit User</h2>
+      &nbsp; &nbsp;
+      <label htmlFor="userId">Enter User's User ID:</label>
+      &nbsp; &nbsp;
+      <input
+        type="text"
+        id="userId"
+        value={oldUserId}
+        onChange={handleUserIdChange}
+      />
+      <br></br>
+      &nbsp; &nbsp;
       <label htmlFor="username">New Username:</label>
+      &nbsp; &nbsp;
       <input
         type="text"
         id="username"
         value={newUsername}
         onChange={handleUsernameChange}
       />
-      <button onClick={() => handleSave(currentUser.id)}>Save</button>
+      <br></br>
+      &nbsp; &nbsp;
+      <button onClick={() => handleSave()}>Save</button>
+      &nbsp; &nbsp;
       <button onClick={() => navigate("/admin")}>Cancel</button>
     </div>
   );

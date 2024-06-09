@@ -5,7 +5,7 @@ import AuthService from "../../services/auth.service";
 import "./Comment.css";
 
 const Comment = (props) => {
-  const { id, userId, postId, commentIcerik, deleteComment } = props;
+  const { id, userId, postId, commentIcerik, deleteComment, createdAt } = props;
   const [correctUser, setCorrectUser] = useState(false);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const Comment = (props) => {
     <>
       <div className="comment">
         <ul>
+          <h5>{createdAt}</h5>
           <h4 style={{ fontSize: "15px" }}>
             Post ID - {postId} &nbsp; &nbsp; Yorum ID - {id}
           </h4>

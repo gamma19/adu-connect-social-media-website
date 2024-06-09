@@ -38,15 +38,11 @@ import Alert from "@mui/material/Alert";
 import EditUserPage from "./EditUserPage";
 import { useNavigate } from "react-router-dom";
 
-const data = [
-  { id: 0, value: 10, label: "Admin" },
-  { id: 1, value: 15, label: "Moderator" },
-  { id: 2, value: 20, label: "Kullanıcı" },
-];
-
 const BoardAdmin = () => {
   const navigate = useNavigate();
-
+  const [commentList, setCommentList] = useState([]);
+  const [commentError, setCommentError] = useState(null);
+  const [commentIsLoaded, setCommentIsLoaded] = useState(false);
   const { userId } = useParams();
   const [content, setContent] = useState("");
   const [users, setUsers] = useState([]);
@@ -57,6 +53,9 @@ const BoardAdmin = () => {
   const [open, setOpen] = React.useState(false);
   const [showEditUser, setShowEditUser] = useState(false);
   const [editingUserId, setEditingUserId] = useState(null);
+  const [postList, setPostList] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [counter, setCounter] = useState([]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -100,6 +99,36 @@ const BoardAdmin = () => {
   ];
 
   useEffect(() => {
+    fetch("/comments", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setCommentIsLoaded(true);
+          setCommentList(result);
+        },
+        (error) => {
+          setCommentIsLoaded(true);
+          setCommentError(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch("/posts", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setPostList(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/users`, { headers: authHeader() });
@@ -118,12 +147,17 @@ const BoardAdmin = () => {
                 columnGap: "1em",
               }}
             >
+              {
+                // On here, we had problems when we were trying to fetch roles. if you disable the code snipped below. users will be fetched to
+                // frontend.
+              }
               {item.roles
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((role) => {
                   let backgroundColor;
                   let color;
                   let displayText;
+
                   switch (role.name) {
                     case "ROLE_ADMIN":
                       backgroundColor = "blue";
@@ -144,6 +178,7 @@ const BoardAdmin = () => {
                       backgroundColor = "gray";
                       displayText = "Unknown";
                   }
+
                   return (
                     <div
                       key={role.name}
@@ -228,6 +263,7 @@ const BoardAdmin = () => {
           // Assuming 'heading_2' is empty
           _cellProps: { id: { scope: "row" } },
         }));
+        console.log(transformedData);
 
         // Update the items state
         setItems(transformedData);
@@ -238,6 +274,8 @@ const BoardAdmin = () => {
 
     fetchData();
   }, []); //
+
+  //console.log(`En son bastirildi:${items}`);
 
   useEffect(() => {
     UserService.getAdminBoard().then(
@@ -293,6 +331,48 @@ const BoardAdmin = () => {
     }
   };
 
+  useEffect(() => {
+    fetch("/users", { headers: authHeader() })
+      .then((res) => res.json())
+      .then((result) => setCounter(result))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // admin,mod,user counters
+  let adminCount = 0;
+  let moderatorCount = 0;
+  let userCount = 0;
+
+  counter.forEach((user) => {
+    user.roles.forEach((role) => {
+      switch (role.name) {
+        case "ROLE_ADMIN":
+          adminCount++;
+          break;
+        case "ROLE_MODERATOR":
+          moderatorCount++;
+          break;
+        case "ROLE_USER":
+          userCount++;
+          break;
+        default:
+          console.warn("Unknown role:", role.name);
+      }
+    });
+  });
+
+  console.log("Admin count:", adminCount);
+  console.log("Moderator count:", moderatorCount);
+  console.log("User count:", userCount);
+
+  ///////////////////////
+  // piechart data
+  const data = [
+    { id: 0, value: adminCount, label: "Admin" },
+    { id: 1, value: moderatorCount, label: "Moderator" },
+    { id: 2, value: userCount, label: "Kullanıcı" },
+  ];
+
   return (
     <div className="admin-main">
       <div className="container">
@@ -307,7 +387,7 @@ const BoardAdmin = () => {
                   //progress={{ color: "primary", value: 75 }}
                   text="Toplam Kullanıcı Sayısı"
                   title="Toplam Kullanıcı Sayısı"
-                  value="5"
+                  value={items.length}
                 />
               </CCol>
               <CCol xs={6}>
@@ -317,7 +397,7 @@ const BoardAdmin = () => {
                   //progress={{ color: "primary", value: 75 }}
                   text="Toplam Atılan Post Sayısı"
                   title="Toplam Atılan Post Sayısı"
-                  value="12"
+                  value={postList.length}
                 />
               </CCol>
             </CRow>
@@ -329,7 +409,7 @@ const BoardAdmin = () => {
                   //progress={{ color: "primary", value: 75 }}
                   text="Toplam Yorum Sayısı"
                   title="Toplam Yorum Sayısı"
-                  value="3"
+                  value={commentList.length}
                 />
               </CCol>
               <CCol
@@ -342,6 +422,7 @@ const BoardAdmin = () => {
                 }}
                 xs={6}
               >
+                {/* pasta grafigine .some() methodu ile roles kisminda ornegin moderator varsa, moderatorCounter++ yapilabilir. */}
                 <h5>Üyelerin Rol Dağılım Oranı - Özellik eklenecek!</h5>
                 <PieChart
                   series={[

@@ -6,8 +6,12 @@ import { isEmail } from "validator";
 import Avatar from "@mui/material/Avatar";
 
 import AuthService from "../services/auth.service";
+import authHeader from "../services/auth-header";
 
 import "./Signup.css";
+import axios from "axios";
+
+const currentUser = AuthService.getCurrentUser();
 
 const required = (value) => {
   if (!value) {

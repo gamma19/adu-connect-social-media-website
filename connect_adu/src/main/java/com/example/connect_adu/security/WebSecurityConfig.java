@@ -67,6 +67,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return authConfig.getAuthenticationManager();
   }
 
+  //Bu beani şifreyi encrpyt etmek için bir de userService'de kullandım
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

@@ -14,6 +14,7 @@ import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import About from "../src/about/About";
+import Forgot from "./components/Forgot";
 import { Avatar } from "@mui/material";
 import LogoImg from "../src/assets/adu-logo.png";
 
@@ -302,6 +303,7 @@ class App extends Component {
           <Route path="/comments" element={<Comment />} />
           <Route path="/socialflow" element={<SocialFlow />} />
           <Route path="/edituserpage" element={<EditUserPage />} />
+          <Route path="/forgot" element={<Forgot />} />
         </Routes>
 
         {/* <AuthVerify logOut={this.logOut}/> */}

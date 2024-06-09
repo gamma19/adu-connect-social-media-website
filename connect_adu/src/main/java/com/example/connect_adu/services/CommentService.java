@@ -45,14 +45,14 @@ public class CommentService {
         }
 
         return comments.stream().map(comment -> new CommentResponse(comment.getId(),
-                comment.getCommentIcerik(), comment.getPost().getId(), comment.getUser().getId()))
+                comment.getCommentIcerik(), comment.getPost().getId(), comment.getUser().getId(), comment.getCreatedAt()))
                 .collect(Collectors.toList());
     }
 
     public CommentResponse getOneCommentById(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         return (comment != null) ? new CommentResponse(comment.getId(),
-                comment.getCommentIcerik(), comment.getPost().getId(), comment.getUser().getId()) : null;
+                comment.getCommentIcerik(), comment.getPost().getId(), comment.getUser().getId(), comment.getCreatedAt()) : null;
     }
 
     public CommentResponse createOneComment(CommentCreateRequest request) {
@@ -68,7 +68,7 @@ public class CommentService {
             Comment savedComment = commentRepository.save(commentToSave);
 
             return new CommentResponse(savedComment.getId(),
-                    savedComment.getCommentIcerik(), savedComment.getPost().getId(), savedComment.getUser().getId());
+                    savedComment.getCommentIcerik(), savedComment.getPost().getId(), savedComment.getUser().getId(), savedComment.getCreatedAt());
         } else {
             return null;
         }
@@ -83,7 +83,7 @@ public class CommentService {
             commentRepository.save(commentToUpdate);
 
             return new CommentResponse(commentToUpdate.getId(),
-                    commentToUpdate.getCommentIcerik(), commentToUpdate.getPost().getId(), commentToUpdate.getUser().getId());
+                    commentToUpdate.getCommentIcerik(), commentToUpdate.getPost().getId(), commentToUpdate.getUser().getId(), commentToUpdate.getCreatedAt());
         } else {
             return null;
         }

@@ -220,14 +220,6 @@ class Login extends Component {
                   }}
                 />
                 <Grid container>
-                  <Grid item xs>
-                    {/*
-                <Link href="/forgot" variant="body2">
-                      Şifremi Unuttum
-                    </Link>
-                
-                 */}
-                  </Grid>
                   <Grid item>
                     <div className="bot-right">
                       <Link href="/register" variant="body2">

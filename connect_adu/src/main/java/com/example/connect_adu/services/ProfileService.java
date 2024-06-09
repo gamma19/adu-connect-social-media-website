@@ -1,72 +1,108 @@
 package com.example.connect_adu.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.connect_adu.requests.ProfileRequest;
-import com.example.connect_adu.responses.ProfileResponse;
 import com.example.connect_adu.entities.Profile;
 import com.example.connect_adu.models.User;
 import com.example.connect_adu.repository.ProfileRepository;
-import com.example.connect_adu.repository.UserRepository;
+import com.example.connect_adu.requests.ProfileCreateRequest;
+import com.example.connect_adu.responses.ProfileResponse;
 
 @Service
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository) {
+    public ProfileService(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
-        this.userRepository = userRepository;
     }
 
-    public ProfileResponse createOrUpdateProfile(ProfileRequest profileRequest) {
-        // Kullanıcıyı veritabanından al
-        User user = userRepository.findById(profileRequest.getUserId()).orElse(null);
+    /**
+     * Retrieves all profiles or profiles by user ID if provided.
+     *
+     * @param userId Optional user ID to filter profiles
+     * @return List of ProfileResponse
+     */
+    public List<ProfileResponse> getAllProfiles(Optional<Long> userId) {
+        List<Profile> profiles = userId.map(profileRepository::findByUserId)
+                                       .orElseGet(profileRepository::findAll);
+
+        return profiles.stream()
+                       .map(ProfileResponse::new)
+                       .collect(Collectors.toList());
+    }
+
+    /**
+     * Creates a new profile for a given user.
+     *
+     * @param newProfileRequest Profile creation request
+     * @param user User object
+     * @return Created Profile
+     * @throws IllegalArgumentException if user is null
+     * @throws RuntimeException if profile already exists for the user
+     */
+    public Profile createOneProfile(ProfileCreateRequest newProfileRequest, User user) {
         if (user == null) {
-            // Kullanıcı bulunamadı, hata fırlatılabilir veya uygun bir şekilde işlenebilir
-            return null;
+            throw new IllegalArgumentException("User cannot be null.");
         }
 
-        // Profili veritabanına kaydet
-        Profile profile = new Profile();
-        profile.setUser(user);
-        profile.setBiography(profileRequest.getBiography());
-        profile.setProfilePicture(profileRequest.getProfilePicture());
-        Profile savedProfile = profileRepository.save(profile);
+        profileRepository.findFirstByUserId(user.getId()).ifPresent(profile -> {
+            throw new RuntimeException("Profile already exists for this user.");
+        });
 
-        // Oluşturulan veya güncellenen profil bilgilerini döndür
-        return mapProfileToResponse(savedProfile);
+        Profile newProfile = new Profile();
+        newProfile.setUser(user);
+        newProfile.setBiography(newProfileRequest.getBiography());
+        newProfile.setProfilePicture(newProfileRequest.getProfilePicture());
+
+        return profileRepository.save(newProfile);
     }
 
-    public ProfileResponse getProfileByUserId(Long userId) {
-        // Kullanıcıyı veritabanından al
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            // Kullanıcı bulunamadı, hata fırlatılabilir veya uygun bir şekilde işlenebilir
-            return null;
-        }
+    /**
+     * Updates the biography of a profile for a given user ID.
+     *
+     * @param userId User ID
+     * @param newBiography New biography text
+     * @return Updated Profile
+     * @throws RuntimeException if profile is not found
+     */
+    public Profile updateBiography(Long userId, String newBiography) {
+        Profile profile = profileRepository.findFirstByUserId(userId)
+                                           .orElseThrow(() -> new RuntimeException("Profile not found for the given user ID."));
 
-        // Kullanıcıya ait profili veritabanından al
-        Profile profile = profileRepository.findByUser(user);
-        if (profile == null) {
-            // Profil bulunamadı, hata fırlatılabilir veya uygun bir şekilde işlenebilir
-            return null;
-        }
-
-        // Profil bilgilerini döndür
-        return mapProfileToResponse(profile);
+        profile.setBiography(newBiography);
+        return profileRepository.save(profile);
     }
 
-    private ProfileResponse mapProfileToResponse(Profile profile) {
-        ProfileResponse response = new ProfileResponse();
-        response.setId(profile.getId());
-        response.setUserId(profile.getUser().getId());
-        response.setBiography(profile.getBiography());
-        response.setProfilePicture(profile.getProfilePicture());
-        return response;
+    /**
+     * Updates the profile picture of a profile for a given user ID.
+     *
+     * @param userId User ID
+     * @param newProfilePicture New profile picture URL
+     * @return Updated Profile
+     * @throws RuntimeException if profile is not found
+     */
+    public Profile updateProfilePicture(Long userId, String newProfilePicture) {
+        Profile profile = profileRepository.findFirstByUserId(userId)
+                                           .orElseThrow(() -> new RuntimeException("Profile not found for the given user ID."));
+
+        profile.setProfilePicture(newProfilePicture);
+        return profileRepository.save(profile);
+    }
+
+    /**
+     * Saves a profile.
+     *
+     * @param profile Profile to save
+     * @return Saved Profile
+     */
+    public Profile saveProfile(Profile profile) {
+        return profileRepository.save(profile);
     }
 }
