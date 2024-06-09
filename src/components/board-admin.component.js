@@ -361,9 +361,9 @@ const BoardAdmin = () => {
     });
   });
 
-  console.log("Admin count:", adminCount);
-  console.log("Moderator count:", moderatorCount);
-  console.log("User count:", userCount);
+  //console.log("Admin count:", adminCount);
+  //console.log("Moderator count:", moderatorCount);
+  //console.log("User count:", userCount);
 
   ///////////////////////
   // piechart data
