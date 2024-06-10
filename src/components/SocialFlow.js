@@ -446,7 +446,7 @@ const SocialFlow = () => {
                                 createdAt={post.createdAt}
                                 title={post.title}
                                 icerik={post.icerik}
-                                username={currentUser.username}
+                                //username={currentUser.username}
                                 // getting like count, in order to understand which post like will be fetched.
                                 // we can test it via getLike button and show that (that button will be on every post - update post component)
                                 likeCount={likeCount[post.id] || 0}

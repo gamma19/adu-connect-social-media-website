@@ -336,7 +336,10 @@ useEffect(() => {
             {activeProfile.map((profil) => (
               <img
                 className="profile-img"
-                src={profil.profilePicture}
+                src={
+                  profil.profilePicture ||
+                  require("../../src/assets/default-avatar.jpg")
+                } // Use a default image URL if `profilePicture` doesn't exist
                 alt="Profil Resminiz"
               ></img>
             ))}
