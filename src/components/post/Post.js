@@ -123,7 +123,7 @@ const Post = (props) => {
                   alignItems: "center",
                 }}
               >
-                {likeCount} 0
+                {/*likeCount*/}
               </h5>
             </div>
 
