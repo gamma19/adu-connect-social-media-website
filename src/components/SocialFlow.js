@@ -490,7 +490,7 @@ useEffect(() => {
                                 .map((comment) => (
                                   <Comment
                                     id={comment.id}
-                                    createdAt={post.createdAt}
+                                    createdAt={comment.createdAt}
                                     userId={comment.userId}
                                     postId={comment.postId}
                                     commentIcerik={comment.commentIcerik}

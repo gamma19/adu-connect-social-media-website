@@ -1,10 +1,8 @@
 package com.example.connect_adu.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.entities.Post;
@@ -23,11 +21,6 @@ public class LikeService {
 	private UserService userService;
 	private PostService postService;
 	
-	
-	
-	
-
-
 
 	public LikeService(LikeRepository likeRepository, UserService userService, PostService postService) {
 		this.likeRepository = likeRepository;
