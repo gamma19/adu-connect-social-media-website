@@ -56,6 +56,9 @@ const SocialFlow = () => {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(""); // State for the comment input
 
+  // like counter added.
+  const [likeCount, setLikeCount] = useState(0);
+
   //const [accordionVisible, setAccordionVisible] = useState(false);
 
   const handleSendComment = (e) => {
@@ -86,6 +89,17 @@ const SocialFlow = () => {
     fetchData();
   }, []);
 
+  const getLike = (postId) => {
+    axios
+      .get(`/likes/posts/${postId}/count`, { headers: authHeader() })
+      .then((res) => {
+        setLikeCount(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetch("/posts", { headers: authHeader() })
       .then((res) => res.json())
@@ -93,6 +107,10 @@ const SocialFlow = () => {
         (result) => {
           setIsLoaded(true);
           setPostList(result);
+          // Call getLike for each post to fetch like count
+          result.forEach((post) => {
+            getLike(post.id);
+          });
         },
         (error) => {
           setIsLoaded(true);
@@ -103,22 +121,6 @@ const SocialFlow = () => {
 
   useEffect(() => {
     fetch("/comments", { headers: authHeader() })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setCommentIsLoaded(true);
-          setCommentList(result);
-        },
-        (error) => {
-          setCommentIsLoaded(true);
-          setCommentError(error);
-        }
-      );
-  }, []);
-
-  // getting likes.
-  useEffect(() => {
-    fetch("/likes", { headers: authHeader() })
       .then((res) => res.json())
       .then(
         (result) => {
@@ -444,7 +446,11 @@ const SocialFlow = () => {
                                 createdAt={post.createdAt}
                                 title={post.title}
                                 icerik={post.icerik}
-                                //username={currentUser.username}
+                                username={currentUser.username}
+                                // getting like count, in order to understand which post like will be fetched.
+                                // we can test it via getLike button and show that (that button will be on every post - update post component)
+                                likeCount={likeCount[post.id] || 0}
+                                //////////////////////////////////////////////////////////////////////////////
                                 deletePost={() => deletePost(post.id)}
                                 handleLike={() => handleLike(post.id)}
                                 comment={comment}

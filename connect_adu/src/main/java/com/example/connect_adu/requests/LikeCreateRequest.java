@@ -5,15 +5,10 @@ import lombok.Data;
 @Data
 public class LikeCreateRequest {
 
-	Long Id;
+
 	Long userId;
 	Long postId;
-	public Long getId() {
-		return Id;
-	}
-	public void setId(Long id) {
-		Id = id;
-	}
+	
 	public Long getUserId() {
 		return userId;
 	}

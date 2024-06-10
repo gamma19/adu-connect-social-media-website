@@ -46,6 +46,7 @@ const Post = (props) => {
     val,
     handleSendComment,
     createdAt,
+    likeCount,
   } = props;
 
   useEffect(() => {
@@ -91,7 +92,14 @@ const Post = (props) => {
         </div>
         <div className="post-bottom">
           <div className="post-bottom-left">
-            <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
               <Checkbox
                 {...label}
                 icon={<FavoriteBorder />}
@@ -106,6 +114,16 @@ const Post = (props) => {
                 }}
                 onChange={handleLike}
               />
+              <h5
+                style={{
+                  color: "red",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {likeCount} 0
+              </h5>
             </div>
 
             {/*

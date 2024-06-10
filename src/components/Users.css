@@ -60,8 +60,8 @@
 }
 
 .profile-img {
-  width: auto;
-  height: 20vh;
+  max-width: 100%;
+  max-height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,6 +88,7 @@
   border-radius: 8px;
   padding: 9px;
   box-sizing: border-box;
+  margin-top: 5px;
 }
 
 .profile-left {
@@ -110,6 +111,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 15px;
+  flex-direction: column;
+  row-gap: 5px;
   margin-top: 15px;
 }
 

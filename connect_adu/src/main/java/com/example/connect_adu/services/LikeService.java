@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.entities.Post;
 import com.example.connect_adu.models.User;
@@ -24,7 +23,7 @@ public class LikeService {
 	private PostService postService;
 	
 	
-	
+
 	
 
 
@@ -35,6 +34,9 @@ public class LikeService {
 		this.postService = postService;
 	}
 
+	 public Long getLikesCountByPostId(Long postId) {
+	        return likeRepository.countByPostId(postId);
+	    }
 
 
 	public List<Like> getAllLikesWithParam(Optional<Long> userId, Optional<Long> postId) {
@@ -55,20 +57,18 @@ public class LikeService {
 
 
 
-	public Like createOneLike(LikeCreateRequest request) {
-		// TODO Auto-generated method stub
-		User user = userService.getOneUserById(request.getUserId());
-		Post post = postService.getOnePostById(request.getPostId());
-		if(user !=null && post !=null) {
-			Like likeToSave = new Like();
-			likeToSave.setUser(user);
-			likeToSave.setPost(post);
-			return  likeRepository.save(likeToSave);
-		}else
-			return null;
-		
-}
-
+	 public Like createOneLike(LikeCreateRequest request) {
+	        User user = userService.getOneUserById(request.getUserId());
+	        Post post = postService.getOnePostById(request.getPostId());
+	        if (user != null && post != null) {
+	            Like likeToSave = new Like();
+	            likeToSave.setUser(user);
+	            likeToSave.setPost(post);
+	            return likeRepository.save(likeToSave);
+	        } else {
+	            return null; // veya uygun bir hata fırlatabilirsiniz.
+	        }
+	    }
 
 	public Like getLikeById(Long likeId) {
 		// TODO Auto-generated method stub

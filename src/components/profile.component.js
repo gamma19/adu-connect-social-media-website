@@ -18,8 +18,11 @@ import { motion } from "framer-motion";
 import NotFound from "./not-found/NotFound";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import { useLocation } from "react-router-dom";
 
 const Profile = () => {
+  const location = useLocation();
+
   const { userId } = useParams();
   const [redirect, setRedirect] = useState(null);
   const [userReady, setUserReady] = useState(false);
@@ -39,9 +42,12 @@ const Profile = () => {
   const [icerikError, setIcerikError] = useState(false);
   const [comment, setComment] = useState(""); // State for the comment input
   const [bio, setBio] = useState([]);
-
+  const [changedComponent, setChangedComponent] = useState(false);
   // bio buraya eklenecek
   const [profileData, setProfileData] = useState([]);
+  const [updateCount, setUpdateCount] = useState(false);
+  const [photoURL, setPhotoURL] = useState("");
+  const [getURL, setGetURL] = useState("");
 
   //const [editing, setEditing] = useState(false);
   const [editPost, setEditPost] = useState({
@@ -57,6 +63,11 @@ const Profile = () => {
   const handleSendComment = (e) => {
     setComment(e.target.value);
   };
+
+  const handlePhotoURL = (e) => {
+    setPhotoURL(e.target.value);
+  };
+
   const handleEditSubmit = (postId) => {
     postId.preventDefault();
     // Send a request to the backend to update the post
@@ -130,6 +141,15 @@ const Profile = () => {
         }
       );
   }, []);
+
+  useEffect(() => {
+    fetch("/profiles", { headers: authHeader() })
+      .then((res) => res.json())
+      .then((result) => {
+        setProfileData(result);
+      })
+      .catch((err) => console.log(err));
+  }, [updateCount]);
 
   useEffect(() => {
     fetch("/comments", { headers: authHeader() })
@@ -248,7 +268,27 @@ useEffect(() => {
       })
       .catch((error) => {
         console.error("Error sending comment:", error);
-      });
+      })
+      .finally(setUpdateCount(!updateCount));
+  };
+
+  // bio will be added
+  const handleAddProfilePicture = (e) => {
+    const data = {
+      userId: currentUser.id,
+      newPhotography: photoURL,
+    };
+    axios
+      .put(`/profiles/profile-picture`, data, {
+        headers: authHeader(),
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error sending comment:", error);
+      })
+      .finally(setUpdateCount(!updateCount));
   };
 
   const handleSubmit = (e) => {
@@ -268,6 +308,11 @@ useEffect(() => {
       });
   };
 
+  const activeProfile = profileData.filter(
+    (profil) => profil.userId === currentUser.id
+  );
+
+  console.log(activeProfile);
   // client side user specific post filtering.
   const userPosts = postList.filter((post) => post.userId === currentUser.id);
 
@@ -288,13 +333,29 @@ useEffect(() => {
       <div className="profile-container">
         <div className="profile-left">
           <div className="profile-left-top">
-            <img
-              className="profile-img"
-              src={require("../assets/default-avatar.jpg")}
-              alt=""
-            ></img>
+            {activeProfile.map((profil) => (
+              <img
+                className="profile-img"
+                src={profil.profilePicture}
+                alt="Profil Resminiz"
+              ></img>
+            ))}
           </div>
           <div className="profile-left-bottom">
+            <br></br>
+            <input
+              style={{ width: "100%" }}
+              placeholder="Foto URL'sini Giriniz PNG/JPG/JPEG formatinda"
+              value={photoURL}
+              onChange={handlePhotoURL}
+            />
+            <br></br>
+            <button
+              style={{ padding: "5px" }}
+              onClick={() => handleAddProfilePicture()}
+            >
+              Foto Ekle
+            </button>
             <div className="info">
               <p>
                 <strong>Username: </strong>
@@ -340,7 +401,6 @@ useEffect(() => {
                   ))}
                 </div>
               */}
-
               <Grid item xs>
                 <Link to="/forgot">
                   <button style={{ padding: "5px" }}>Şifreyi Değiştir</button>
@@ -353,6 +413,19 @@ useEffect(() => {
                   Profil Oluştur
                 </button>
               </Grid>
+              <br></br>
+
+              {/* profil biosu*/}
+              {activeProfile.map((profil) =>
+                profil.userId === currentUser.id ? (
+                  <>
+                    <h5>Bionuz:</h5>
+                    <li>{profil.biography}</li>
+                  </>
+                ) : (
+                  <p>Bio bulunamadi.</p>
+                )
+              )}
             </div>
 
             {/*
