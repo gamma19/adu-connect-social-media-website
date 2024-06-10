@@ -55,6 +55,7 @@ const SocialFlow = () => {
   const [currentUser, setCurrentUser] = useState({ username: "" });
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(""); // State for the comment input
+  const [allLikes, setAllLikes] = useState([]);
 
   // like counter added.
   const [likeCount, setLikeCount] = useState(0);
@@ -107,10 +108,6 @@ const SocialFlow = () => {
         (result) => {
           setIsLoaded(true);
           setPostList(result);
-          // Call getLike for each post to fetch like count
-          result.forEach((post) => {
-            getLike(post.id);
-          });
         },
         (error) => {
           setIsLoaded(true);
@@ -118,6 +115,38 @@ const SocialFlow = () => {
         }
       );
   }, []);
+
+  useEffect(() => {
+    fetch("/likes", { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setAllLikes(result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
+
+  {
+    /*
+
+useEffect(() => {
+    fetch(`/likes/posts/${postId}/count`, { headers: authHeader() })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setLikeCount(result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
+
+*/
+  }
 
   useEffect(() => {
     fetch("/comments", { headers: authHeader() })
@@ -182,13 +211,9 @@ const SocialFlow = () => {
       userId: currentUser.id,
     };
 
-    const deleteLike = {
-      id: likeId,
-    };
-
     if (liked) {
       axios
-        .delete(`/likes/${likeId}`, deleteLike, { headers: authHeader() })
+        .delete(`/likes/${likeId}`, { headers: authHeader() })
         .then((res) => {
           console.log(res.data);
           setLiked(false);
@@ -438,7 +463,7 @@ const SocialFlow = () => {
                         {postList
                           .slice()
                           .reverse()
-                          .map((post) => (
+                          .map((post, allLikes) => (
                             <li key={post.id}>
                               <Post
                                 Id={post.id}
@@ -446,12 +471,15 @@ const SocialFlow = () => {
                                 createdAt={post.createdAt}
                                 title={post.title}
                                 icerik={post.icerik}
-                                //username={currentUser.username}
+                                username={post.userName}
+                                postImg={post.profile_picture}
                                 // getting like count, in order to understand which post like will be fetched.
                                 // we can test it via getLike button and show that (that button will be on every post - update post component)
-                                likeCount={likeCount[post.id] || 0}
+                                likeCount={likeCount}
                                 //////////////////////////////////////////////////////////////////////////////
                                 deletePost={() => deletePost(post.id)}
+                                //////////////////////////////////////////////////////////////////////////////
+                                // problem is on handlelike()
                                 handleLike={() => handleLike(post.id)}
                                 comment={comment}
                                 handleSendComment={handleSendComment}

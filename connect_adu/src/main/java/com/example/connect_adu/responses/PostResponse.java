@@ -15,6 +15,7 @@ public class PostResponse {
     String icerik;
     Long userId;
     String userName;
+    String profile_picture;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Istanbul")
     private Date createdAt;
@@ -22,7 +23,7 @@ public class PostResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Istanbul")
     private Date updatedAt;
 
-    public PostResponse(Long id, String title, String icerik, Long userId, String userName, Date createdAt, Date updatedAt) {
+    public PostResponse(Long id, String title, String icerik, Long userId, String userName, Date createdAt, Date updatedAt,String profile_picture) {
         super();
         this.id = id;
         this.title = title;
@@ -31,6 +32,7 @@ public class PostResponse {
         this.userName = userName;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.profile_picture = profile_picture;
     }
 
  // Constructor that accepts a Post object
@@ -44,13 +46,34 @@ public class PostResponse {
             this.userId = post.getUser().getId();  // Accessing user's ID
             this.userName = post.getUser().getUsername();  // Accessing user's username
         }
+        // Check if the user's profile is not null
+        if (post.getUser().getProfile() != null) {
+            // Check if the profile picture is not null
+            if (post.getUser().getProfile().getProfilePicture() != null) {
+                this.profile_picture = post.getUser().getProfile().getProfilePicture();
+            } else {
+                // Handle the case where the profile picture is null
+                this.profile_picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/User-Pict-Profil.svg/1365px-User-Pict-Profil.svg.png"; // Assign a default value or handle as needed
+            }
+        } else {
+            // Handle the case where the profile is null
+            this.profile_picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/User-Pict-Profil.svg/1365px-User-Pict-Profil.svg.png"; // Assign a default value or handle as needed
+        }
         
         this.createdAt = post.getCreatedAt();
         this.updatedAt = post.getUpdatedAt();
     }
 
     
-    // Getters and setters
+    public String getProfile_picture() {
+		return profile_picture;
+	}
+
+	public void setProfile_picture(String profile_picture) {
+		this.profile_picture = profile_picture;
+	}
+
+	// Getters and setters
     public Long getId() {
         return id;
     }

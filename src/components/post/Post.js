@@ -47,6 +47,7 @@ const Post = (props) => {
     handleSendComment,
     createdAt,
     likeCount,
+    postImg,
   } = props;
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const Post = (props) => {
             <Stack direction="row" spacing={2}>
               <Avatar
                 alt=""
-                src="/static/images/avatar/1.jpg"
+                src={postImg}
                 sx={{ width: 70, height: 70, bgcolor: blue[600] }}
               ></Avatar>
             </Stack>

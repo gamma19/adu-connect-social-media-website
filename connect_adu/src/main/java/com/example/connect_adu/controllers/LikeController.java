@@ -1,6 +1,7 @@
 package com.example.connect_adu.controllers;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.requests.LikeCreateRequest;
 import com.example.connect_adu.responses.LikeCountResponse;
+import com.example.connect_adu.responses.LikeResponse;
 import com.example.connect_adu.services.LikeService;
 
 
@@ -28,16 +31,11 @@ public class LikeController {
 	public LikeController(LikeService likeService) {
 		this.likeService = likeService;
 	}
-	
-	
-	@GetMapping
-	public List<Like> getAllLikes(@RequestParam Optional<Long> userIdK, 
-			@RequestParam Optional<Long> postIdK){
 		
-		return likeService.getAllLikesWithParam(userIdK,postIdK);
-	
-}
-	
+	@GetMapping
+	public List<LikeResponse> getAllLikes(){
+		return likeService.getAllLikes().stream().map(u -> new LikeResponse(u)).toList();
+	}
 	
 	@PostMapping
 	public Like createOneLike(@RequestBody LikeCreateRequest request) {
@@ -60,12 +58,14 @@ public class LikeController {
 	}
 	
 	
-	 @GetMapping("/posts/{postId}/count")
-	 public ResponseEntity<LikeCountResponse> getLikesCountByPostId(@PathVariable Long postId) {
-    	Long likeCount = likeService.getLikesCountByPostId(postId);
-    	LikeCountResponse response = new LikeCountResponse(likeCount);
-    	return ResponseEntity.ok(response);
-}
+	@GetMapping("/posts/{postId}/count")
+	public ResponseEntity<LikeCountResponse> getLikesCountByPostId(@PathVariable Long postId) {
+	    Long likeCount = likeService.getLikesCountByPostId(postId);
+	    LikeCountResponse response = new LikeCountResponse(likeCount);
+	    return ResponseEntity.ok(response);
+	}
+
+	
 	
 
 }

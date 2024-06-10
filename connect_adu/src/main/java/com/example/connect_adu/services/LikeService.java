@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.entities.Post;
 import com.example.connect_adu.models.User;
@@ -23,7 +24,7 @@ public class LikeService {
 	private PostService postService;
 	
 	
-
+	
 	
 
 
@@ -39,21 +40,9 @@ public class LikeService {
 	    }
 
 
-	public List<Like> getAllLikesWithParam(Optional<Long> userId, Optional<Long> postId) {
-	
-		if(userId.isPresent() && postId.isPresent()) {
-			return likeRepository.findByUserIdAndPostId(userId.get(),postId.get());
-		} else if(userId.isPresent()) {
-			return  likeRepository.findByUserId(userId.get());
-		}else if(postId.isPresent()){
-			return likeRepository.findByPostId(postId.get());
+		public List<Like> getAllLikes() {
+			return likeRepository.findAll();
 		}
-		return likeRepository.findAll();
-		
-		
-		
-		
-	}
 
 
 

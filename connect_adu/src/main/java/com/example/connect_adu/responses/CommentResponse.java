@@ -3,19 +3,32 @@ package com.example.connect_adu.responses;
 
 import java.util.Date;
 
+import com.example.connect_adu.entities.Comment;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
-
-import com.example.connect_adu.entities.Comment;
 
 
 
 @Data
 public class CommentResponse {
-	
-	
 
+	Long Id;
+	String commentIcerik;
+	Long postId;
+	Long userId;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Istanbul")
+	private Date createdAt;
+	
+public CommentResponse(Long id, String commentIcerik, Long postId, Long userId, Date createdAt) {
+		super();
+		this.Id = id;
+		this.commentIcerik = commentIcerik;
+		this.postId = postId;
+		this.userId = userId;
+		this.createdAt = createdAt;
+	}
 
 	
 	public Long getId() {
@@ -58,22 +71,11 @@ public class CommentResponse {
 		this.createdAt = createdAt;
 	}
 
-	public CommentResponse(Long id, String commentIcerik, Long postId, Long userId, Date createdAt) {
-		super();
-		this.Id = id;
-		this.commentIcerik = commentIcerik;
-		this.postId = postId;
-		this.userId = userId;
-		this.createdAt = createdAt;
-	}
-
-	Long Id;
-	String commentIcerik;
-	Long postId;
-	Long userId;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "UTC")
-	private Date createdAt;
+
+	
+	
+	
 	
 	
 	public CommentResponse(Comment comment) {

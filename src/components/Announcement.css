@@ -15,6 +15,7 @@
   background-size: cover;
   background-blend-mode: multiply;
   background-color: gray;
+  overflow: scroll;
 }
 
 .announcement-container {
@@ -28,4 +29,5 @@
   background-color: white;
   border-radius: 2%;
   border: 1px solid black;
+  overflow: scroll;
 }

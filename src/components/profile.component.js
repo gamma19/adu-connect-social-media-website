@@ -347,7 +347,7 @@ useEffect(() => {
           <div className="profile-left-bottom">
             <br></br>
             <input
-              style={{ width: "100%" }}
+              style={{ width: "90%" }}
               placeholder="Foto URL'sini Giriniz PNG/JPG/JPEG formatinda"
               value={photoURL}
               onChange={handlePhotoURL}
@@ -612,6 +612,7 @@ useEffect(() => {
                       createdAt={post.createdAt}
                       title={post.title}
                       icerik={post.icerik}
+                      postImg={post.profile_picture}
                       username={currentUser.username}
                       deletePost={() => deletePost(post.id)}
                       comment={comment}
@@ -624,7 +625,7 @@ useEffect(() => {
                         <Comment
                           id={comment.id}
                           userId={comment.userId}
-                          createdAt={post.createdAt}
+                          createdAt={comment.createdAt}
                           postId={comment.postId}
                           commentIcerik={comment.commentIcerik}
                           deleteComment={() => deleteComment(comment.id)}
