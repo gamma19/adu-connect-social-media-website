@@ -236,7 +236,7 @@ useEffect(() => {
         console.log(res.data);
         setLikeList((prevLikeList) => ({
           ...prevLikeList,
-          [postId]: res.data.likeCount, // Ensure likeCount is a number
+          [postId]: res.data.likeCount, // likecount Number tipinde gecti, yoksa obje tipinde gectigi icin .map()'de problem yasadik
         }));
       })
       .catch((error) => {

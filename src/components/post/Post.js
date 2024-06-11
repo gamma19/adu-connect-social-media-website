@@ -104,12 +104,23 @@ const Post = (props) => {
                 flexDirection: "column",
               }}
             >
+              <h5
+                style={{
+                  color: "#154EA2",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {likeCount}
+              </h5>
               <button
                 onClick={handleUpvote}
                 style={{
                   backgroundColor: "#154EA2",
                   color: "white",
                   borderRadius: "5%",
+                  marginBottom: "5px",
                 }}
               >
                 <svg
@@ -126,7 +137,6 @@ const Post = (props) => {
                   />
                 </svg>
               </button>
-              &nbsp;
               <button
                 onClick={handleDownvote}
                 style={{
@@ -149,16 +159,6 @@ const Post = (props) => {
                   />
                 </svg>
               </button>
-              <h5
-                style={{
-                  color: "red",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {likeCount} 0{likeFunction}
-              </h5>
               {/*
             <Checkbox
                 {...label}
