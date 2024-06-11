@@ -93,17 +93,6 @@ const SocialFlow = () => {
     fetchData();
   }, []);
 
-  const getLike = (postId) => {
-    axios
-      .get(`/likes/posts/${postId}/count`, { headers: authHeader() })
-      .then((res) => {
-        setLikeCount(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {

@@ -51,6 +51,7 @@ const Post = (props) => {
     handleUpvote,
     handleDownvote,
     likeFunction,
+    isProfile,
   } = props;
 
   useEffect(() => {
@@ -95,13 +96,14 @@ const Post = (props) => {
           <p>{icerik}</p>
         </div>
         <div className="post-bottom">
-          <div className="post-bottom-left">
+          {isProfile ? null : (
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
+                marginLeft: "1em",
               }}
             >
               <h5
@@ -179,7 +181,8 @@ const Post = (props) => {
             
              */}
             </div>
-
+          )}
+          <div className="post-bottom-left">
             {/*
               <button
               type="button"

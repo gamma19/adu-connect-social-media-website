@@ -49,6 +49,8 @@ const Profile = () => {
   const [photoURL, setPhotoURL] = useState("");
   const [getURL, setGetURL] = useState("");
 
+  const isProfile = true;
+
   //const [editing, setEditing] = useState(false);
   const [editPost, setEditPost] = useState({
     title: "",
@@ -607,6 +609,7 @@ useEffect(() => {
                 .map((post) => (
                   <li key={post.id}>
                     <Post
+                      isProfile={true}
                       Id={post.id}
                       userId={post.userId}
                       createdAt={post.createdAt}
