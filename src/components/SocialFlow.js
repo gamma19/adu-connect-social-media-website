@@ -20,6 +20,7 @@ import axios from "axios";
 import NotFound from "./not-found/NotFound";
 import AuthService from "../services/auth.service";
 import Avatar from "@mui/material/Avatar";
+import EmojiPicker from "emoji-picker-react";
 
 const SocialFlow = () => {
   const meta = {
@@ -56,6 +57,8 @@ const SocialFlow = () => {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(""); // State for the comment input
   const [allLikes, setAllLikes] = useState([]);
+  const [upvote, setUpvote] = useState();
+  const [likeList, setLikeList] = useState({});
 
   // like counter added.
   const [likeCount, setLikeCount] = useState(0);
@@ -102,18 +105,24 @@ const SocialFlow = () => {
   };
 
   useEffect(() => {
-    fetch("/posts", { headers: authHeader() })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setPostList(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get("/posts", { headers: authHeader() });
+        const posts = res.data;
+        setPostList(posts);
+        setIsLoaded(true);
+
+        // Fetch like counts for each post
+        posts.forEach((post) => {
+          handleLikeCount(post.id);
+        });
+      } catch (error) {
+        setError(error);
+        setIsLoaded(true);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   useEffect(() => {
@@ -205,6 +214,49 @@ useEffect(() => {
       });
   };
 
+  const handleUpvote = (postId) => {
+    const postLike = {
+      postId: postId,
+      userId: currentUser.id,
+    };
+    axios
+      .post(`/likes`, postLike, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error liking post:", error);
+      });
+  };
+
+  const handleLikeCount = (postId) => {
+    axios
+      .get(`/likes/posts/${postId}/count`, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        setLikeList((prevLikeList) => ({
+          ...prevLikeList,
+          [postId]: res.data.likeCount, // Ensure likeCount is a number
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching like count:", error);
+      });
+  };
+
+  const handleDownvote = (postId, userId) => {
+    axios
+      .delete(`/likes/user/${userId}/post/${postId}`, {
+        headers: authHeader(),
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error unliking post:", error);
+      });
+  };
+
   const handleLike = (postId, likeId) => {
     const postLike = {
       postId: postId,
@@ -250,6 +302,10 @@ useEffect(() => {
         console.error("Error submitting form:", error);
       });
   };
+
+  useEffect(() => {
+    console.log("Updated likeList:", likeList);
+  }, [likeList]);
 
   //const userComments = commentList.filter(comment => comment.postId === comment.userId);
 
@@ -398,6 +454,7 @@ useEffect(() => {
                           onChange={handleTitleChange}
                           required
                         />
+
                         {titleError && (
                           <div
                             className="error-message"
@@ -416,7 +473,6 @@ useEffect(() => {
                           onChange={handleIcerikChange}
                           required
                         />
-
                         {icerikError && (
                           <div
                             className="error-message"
@@ -458,12 +514,19 @@ useEffect(() => {
                       </form>
                     </div>
                     <div className="main-mid">
+                      {/*
+                  
+                                          <EmojiPicker open="false" />
+
+                    
+                     */}
+
                       <ul>
                         {console.log("postList", postList)}
                         {postList
                           .slice()
                           .reverse()
-                          .map((post, allLikes) => (
+                          .map((post) => (
                             <li key={post.id}>
                               <Post
                                 Id={post.id}
@@ -475,12 +538,17 @@ useEffect(() => {
                                 postImg={post.profile_picture}
                                 // getting like count, in order to understand which post like will be fetched.
                                 // we can test it via getLike button and show that (that button will be on every post - update post component)
-                                likeCount={likeCount}
+                                //likeCount={likeCount}
                                 //////////////////////////////////////////////////////////////////////////////
                                 deletePost={() => deletePost(post.id)}
                                 //////////////////////////////////////////////////////////////////////////////
                                 // problem is on handlelike()
-                                handleLike={() => handleLike(post.id)}
+                                //likeFunction={() => handleLikeCount(post.id)}
+                                likeCount={likeList[post.id] || 0} // Ensure this is a number
+                                handleUpvote={() => handleUpvote(post.id)}
+                                handleDownvote={() =>
+                                  handleDownvote(post.id, currentUser.id)
+                                }
                                 comment={comment}
                                 handleSendComment={handleSendComment}
                                 sendComment={() => sendComment(post.id)}

@@ -2,8 +2,6 @@ package com.example.connect_adu.controllers;
 
 import java.util.List;
 
-import java.util.Optional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.requests.LikeCreateRequest;
@@ -51,11 +47,15 @@ public class LikeController {
 	}
 	
 	
-	@DeleteMapping("/{likeId}")
-	public void deleteOneLike(@PathVariable Long likeId) {
-		
-		likeService.deleteOneLikeById(likeId);
-	}
+	@DeleteMapping("/user/{userId}/post/{postId}")
+    public ResponseEntity<?> deleteLike(@PathVariable Long userId, @PathVariable Long postId) {
+        boolean isDeleted = likeService.deleteLike(userId, postId);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 	
 	
 	@GetMapping("/posts/{postId}/count")
