@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 import com.example.connect_adu.entities.Like;
 import com.example.connect_adu.entities.Post;
 import com.example.connect_adu.models.User;

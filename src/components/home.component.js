@@ -180,17 +180,22 @@ export default class Home extends Component {
                   Sen de hemen katıl !
                 </h5>
                 <p className="home-p" data-aos="fade-up">
-                  ADU Connect, Adnan Menderes Üniversitesi öğrencilerinin sosyal
-                  medya platformudur. Bu platform, öğrencilerin etkileşimini
-                  artırmayı ve bir araya gelmelerini sağlamayı amaçlar. ADU
-                  Connect, öğrencilerin ortak ilgi alanlarına dayalı olarak
-                  bağlantı kurmalarını kolaylaştırır. Öğrenciler, kulüp
-                  etkinliklerini takip edebilir, projelerde işbirliği yapabilir
-                  ve diğer öğrencilerle sosyal etkileşimlerde bulunabilir. Bu
-                  platform, öğrencilerin yeni arkadaşlıklar kurmasını ve sosyal
-                  ağlarını genişletmelerini destekler. ADU Connect, Adnan
-                  Menderes Üniversitesi öğrencileri arasında güçlü bir sosyal
-                  medya topluluğu oluşturmayı hedefler.
+                  ADU Connect: Adnan Menderes Üniversitesi Öğrenci Kulüplerinin
+                  Resmi Sosyal Medya Platformu! ADU Connect ile üniversite
+                  yaşamını daha aktif, eğlenceli ve verimli hale getirin!
+                  Öğrenci kulüplerini bir araya getiren bu eşsiz platform,
+                  etkileşimi ve iletişimi artırarak öğrencilerin üniversite
+                  deneyimini zenginleştiriyor. Neden ADU Connect? Kulüplerle
+                  Bağlantı Kurun: İlgi alanlarınıza uygun kulüpleri keşfedin ve
+                  hemen katılın. Etkinliklerden Haberdar Olun: Kulüplerin
+                  düzenlediği etkinlikleri, projeleri ve toplantıları takip
+                  ederek hiçbir fırsatı kaçırmayın. Sosyal Ağınızı Genişletin:
+                  Ortak ilgi alanlarına sahip yeni arkadaşlarla tanışın ve
+                  sosyal çevrenizi genişletin. Birlikte Çalışın: Kulüp
+                  projelerinde yer alarak takım çalışması ve liderlik
+                  becerilerinizi geliştirin. Yeni Fırsatlar Yakalayın: ADU
+                  Connect, kişisel ve profesyonel gelişiminize katkı sağlayacak
+                  birçok fırsat sunar.
                 </p>
               </div>
             </div>

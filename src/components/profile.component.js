@@ -318,6 +318,19 @@ useEffect(() => {
   // client side user specific post filtering.
   const userPosts = postList.filter((post) => post.userId === currentUser.id);
 
+  const translateRole = (role) => {
+    switch (role) {
+      case "ROLE_ADMIN":
+        return "Admin";
+      case "ROLE_MODERATOR":
+        return "Moderator";
+      case "ROLE_USER":
+        return "Kullanıcı";
+      default:
+        return role; // Return the role as is if there's no match
+    }
+  };
+
   if (error) {
     return <NotFound />;
   }
@@ -363,7 +376,7 @@ useEffect(() => {
             </button>
             <div className="info">
               <p>
-                <strong>Username: </strong>
+                <strong>Kullanıcı Adı: </strong>
                 {currentUser.username}
               </p>
               <p>
@@ -374,6 +387,7 @@ useEffect(() => {
                 <strong>ID: </strong>
                 {currentUser.id}
               </p>
+              {/*
               <p>
                 <strong>Token:</strong>{" "}
                 {currentUser.accessToken.substring(0, 20)} ...{" "}
@@ -381,12 +395,15 @@ useEffect(() => {
                   currentUser.accessToken.length - 20
                 )}
               </p>
-              <strong>Authorities:</strong>
+              
+               */}
+
+              <strong>Yetkileriniz:</strong>
               <ul>
                 {currentUser.roles &&
                   currentUser.roles.map((role, index) => (
-                    <li style={{ color: "white" }} key={index}>
-                      {role}
+                    <li className="role-item" key={index}>
+                      {translateRole(role)}
                     </li>
                   ))}
               </ul>

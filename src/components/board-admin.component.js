@@ -423,7 +423,7 @@ const BoardAdmin = () => {
                 xs={6}
               >
                 {/* pasta grafigine .some() methodu ile roles kisminda ornegin moderator varsa, moderatorCounter++ yapilabilir. */}
-                <h5>Üyelerin Rol Dağılım Oranı - Özellik eklenecek!</h5>
+                <h5>Üyelerin Rol Dağılım Oranı</h5>
                 <PieChart
                   series={[
                     {
